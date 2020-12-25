@@ -12,6 +12,7 @@ public class Client extends Entity {
     private ClientType clientType;
     private List<Order> orderList = new ArrayList<>();
 
+    public Client(){}
     public Client( String name, String data, ClientType clientType) {
         this.name = name;
         this.data = data;

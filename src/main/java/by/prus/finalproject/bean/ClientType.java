@@ -16,6 +16,14 @@ public enum ClientType {
         return ClientType.values()[identity];
     }
 
+    public static ClientType ct (int typeID){
+        for (ClientType ct : ClientType.values()){
+            if (ct.getIdentity().equals(typeID)){
+                return ct;
+            }
+        }
+        throw new IllegalArgumentException("Illegal Client type id pointed, please check mistakes");
+    }
 
 }
 
