@@ -1,6 +1,4 @@
-package by.prus.finalproject.domain;
-
-import java.util.Objects;
+package by.prus.finalproject.bean;
 
 public abstract class Person extends Entity {
 

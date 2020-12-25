@@ -1,7 +1,7 @@
 package by.prus.finalproject.dao;
 
 
-import by.prus.finalproject.domain.Entity;
+import by.prus.finalproject.bean.Entity;
 import by.prus.finalproject.exception.PersistentException;
 
 public interface Dao<Type extends Entity> {

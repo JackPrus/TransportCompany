@@ -1,7 +1,7 @@
 package by.prus.finalproject.dao.mysql;
 
 import by.prus.finalproject.dao.DriverDao;
-import by.prus.finalproject.domain.Driver;
+import by.prus.finalproject.bean.Driver;
 import by.prus.finalproject.exception.PersistentException;
 import by.prus.finalproject.service.DateParser;
 import org.apache.logging.log4j.LogManager;

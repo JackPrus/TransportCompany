@@ -1,8 +1,7 @@
-package by.prus.finalproject.domain;
+package by.prus.finalproject.bean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Truck extends Entity {
 
@@ -23,6 +22,7 @@ public class Truck extends Entity {
         this.weighCapacity = weighCapacity;
         this.isBusy=isBusy;
     }
+    public Truck(){}
 
     public String getTruckNo() { return truckNo; }
     public void setTruckNo(String truckNo) { this.truckNo = truckNo; }
@@ -36,6 +36,8 @@ public class Truck extends Entity {
     public void setWeighCapacity(int weighCapacity) { this.weighCapacity = weighCapacity; }
     public Manager getManager() { return manager; }
     public void setManager(Manager manager) { this.manager = manager; }
+    public boolean isBusy() { return isBusy; }
+    public void setBusy(boolean busy) { isBusy = busy; }
 
     public List<Order> getOrderList() { return orderList; }
     public void setOrderList(List<Order> orderList) { this.orderList = orderList; }

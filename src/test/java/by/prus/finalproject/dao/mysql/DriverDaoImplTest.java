@@ -2,14 +2,12 @@ package by.prus.finalproject.dao.mysql;
 
 import by.prus.finalproject.dao.Dao;
 import by.prus.finalproject.dao.pool.WrapperConnector;
-import by.prus.finalproject.domain.Driver;
+import by.prus.finalproject.bean.Driver;
 import by.prus.finalproject.exception.PersistentException;
 import by.prus.finalproject.service.DateParser;
 import org.testng.annotations.*;
 
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.testng.Assert.*;

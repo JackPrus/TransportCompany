@@ -1,4 +1,4 @@
-package by.prus.finalproject.domain;
+package by.prus.finalproject.bean;
 
 public enum ClientType {
 

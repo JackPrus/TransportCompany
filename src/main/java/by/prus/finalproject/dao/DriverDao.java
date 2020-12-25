@@ -1,6 +1,6 @@
 package by.prus.finalproject.dao;
 
-import by.prus.finalproject.domain.Driver;
+import by.prus.finalproject.bean.Driver;
 import by.prus.finalproject.exception.PersistentException;
 
 import java.util.List;
