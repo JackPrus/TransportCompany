@@ -137,7 +137,7 @@ public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
             statement.setInt(1, identity);
             statement.executeUpdate();
         } catch(SQLException e) {
-            logger.error("Somethind going wrong doing delete position {} in 'truck' table"+identity);
+            logger.error("Somethind going wrong doing delete position {} in 'order' table"+identity);
             throw new PersistentException(e);
         } finally {
             try {

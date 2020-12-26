@@ -6,8 +6,8 @@ import java.util.Date;
 public class Order extends Entity {
 
     private String pickupAdress;
-    private String cityPickUp;
-    private String cityDelivery;
+    private City cityPickUp;
+    private City cityDelivery;
     private String unloadingAdress;
     private int length; //cm
     private int width; //cm
@@ -20,14 +20,16 @@ public class Order extends Entity {
     private Manager manager;
     private Client client;
 
+
+
     public Order (){}
 
     public String getPickupAdress() { return pickupAdress; }
+    public City getCityPickUp() { return cityPickUp; }
+    public void setCityPickUp(City cityPickUp) { this.cityPickUp = cityPickUp; }
+    public City getCityDelivery() { return cityDelivery; }
+    public void setCityDelivery(City cityDelivery) { this.cityDelivery = cityDelivery; }
     public void setPickupAdress(String pickupAdress) { this.pickupAdress = pickupAdress; }
-    public String getCityPickUp() { return cityPickUp; }
-    public void setCityPickUp(String cityPickUp) { this.cityPickUp = cityPickUp; }
-    public String getCityDelivery() { return cityDelivery; }
-    public void setCityDelivery(String cityDelivery) { this.cityDelivery = cityDelivery; }
     public String getUnloadingAdress() { return unloadingAdress; }
     public void setUnloadingAdress(String unloadingAdress) { this.unloadingAdress = unloadingAdress; }
     public int getLength() { return length; }
