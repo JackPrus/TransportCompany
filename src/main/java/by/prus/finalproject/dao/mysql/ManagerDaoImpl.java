@@ -9,6 +9,7 @@ import by.prus.finalproject.exception.PersistentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,10 @@ import java.util.List;
 public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
 
     private static final Logger logger = LogManager.getLogger(ManagerDaoImpl.class);
+
+    public ManagerDaoImpl(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public List<Manager> findByName(String name) {
@@ -61,8 +66,8 @@ public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
     @Override
     public Manager read(Integer identity) throws PersistentException {
         String sql = "SELECT * FROM manager WHERE id = (?)";
-        String sqlForOrders = "SELECT id FROM order WHERE manager_id = (?)";
-        String sqlForTrucks = "SELECT id FROM truck WHERE manager_id = (?)";
+        String sqlForOrders = "SELECT id FROM sdek.order WHERE manager_id = (?)";
+        String sqlForTrucks = "SELECT id FROM sdek.truck WHERE manager_id = (?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {

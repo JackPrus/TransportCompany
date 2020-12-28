@@ -1,12 +1,12 @@
 package by.prus.finalproject.dao.mysql;
 
+import by.prus.finalproject.bean.Order;
 import by.prus.finalproject.dao.DriverDao;
 import by.prus.finalproject.bean.Driver;
 import by.prus.finalproject.exception.PersistentException;
 import by.prus.finalproject.service.DateParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -157,11 +157,15 @@ public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
             throw new PersistentException(e);
         } finally {
             try {
-                resultSet.close();
+                if (resultSet!=null){
+                    resultSet.close();
+                }
             } catch(SQLException | NullPointerException e) {}
             try {
-                statement.close();
-            } catch(SQLException | NullPointerException e) {}
+                if (statement!=null){
+                    statement.close();
+                }
+            } catch(SQLException e) {}
         }
 
     }
@@ -170,9 +174,8 @@ public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
     public void update(Driver driver) throws PersistentException {
 
         String sql = "UPDATE `driver` SET `name` = ?, `licenseNo` = ?, `isbusy` = ?, `medical_aprovement` = ? WHERE `id` = ?";
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(sql);
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, driver.getName());
             statement.setString(2, driver.getLicenseNo());
             statement.setBoolean(3, driver.isBusy());
@@ -182,10 +185,6 @@ public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
         } catch(SQLException e) {
             logger.error("Error trying to update information {}"+driver);
             throw new PersistentException(e);
-        } finally {
-            try {
-                statement.close();
-            } catch(SQLException | NullPointerException e) {}
         }
 
     }
@@ -194,19 +193,36 @@ public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
     public void delete(Integer identity) throws PersistentException {
 
         String sql = "DELETE FROM `driver` WHERE `id` = ?";
-        PreparedStatement statement = null;
-        try {
-            statement = connection.prepareStatement(sql);
+        try(PreparedStatement statement =connection.prepareStatement(sql)) {
             statement.setInt(1, identity);
             statement.executeUpdate();
         } catch(SQLException e) {
             logger.error("Somethind going wrong doing delete position {} in 'driver' table"+identity);
             throw new PersistentException(e);
-        } finally {
-            try {
-                statement.close();
-            } catch(SQLException | NullPointerException e) {}
         }
 
     }
+
+    public List<Order> getOrdersForDriver (Driver driver) throws PersistentException {
+
+        String sql = "SELECT * FROM `driver_has_order` WHERE driver_id = (?)";
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            List<Order> orderList = new ArrayList<>();
+            statement.setInt(1,driver.getIdentity());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                Order order = new Order();
+                order.setIdentity(resultSet.getInt("order_id"));
+                orderList.add(order);
+            }
+            return orderList;
+
+        } catch (SQLException e) {
+            logger.error("Somethind going wrong tryint to read List of Orders for 'driver' {}"+driver.getIdentity());
+            throw new PersistentException(e);
+        }
+    }
+
 }

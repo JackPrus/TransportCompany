@@ -9,7 +9,6 @@ public class Driver extends Person {
     private Date medicalAprovement;
     private boolean isBusy;
     private String licenseNo;
-    private List<Order> orderList = new ArrayList<>();
 
 
     public Driver(){}
@@ -28,11 +27,6 @@ public class Driver extends Person {
     public boolean isBusy() { return isBusy; }
     public void setBusy(boolean busy) { isBusy = busy; }
 
-    public List<Order> getOrderList() { return orderList; }
-    public void setOrderList(List<Order> orderList) { this.orderList = orderList; }
-    public void addOrder (Order order){orderList.add(order);}
-    public void removeOrder (Order order){orderList.remove(order);}
-    public void clearOrderList (){orderList.clear();}
 
 
 

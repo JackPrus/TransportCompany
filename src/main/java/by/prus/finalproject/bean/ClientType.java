@@ -10,10 +10,10 @@ public enum ClientType {
 
     private ClientType(int clientTypeId){ this.clientTypeId=clientTypeId; }
     public Integer getIdentity() {
-            return ordinal();
+            return clientTypeId;
         }
     public static ClientType getByIdentity(Integer identity) {
-        return ClientType.values()[identity];
+        return ClientType.values()[identity-1];
     }
 
     public static ClientType ct (int typeID){

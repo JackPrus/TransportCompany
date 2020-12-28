@@ -1,11 +1,13 @@
 package by.prus.finalproject.dao.mysql;
 
 import by.prus.finalproject.bean.*;
+import by.prus.finalproject.dao.DriverDao;
 import by.prus.finalproject.dao.OrderDao;
 import by.prus.finalproject.exception.PersistentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +18,8 @@ import java.util.List;
 public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     private static final Logger logger = LogManager.getLogger(OrderDaoImpl.class);
+
+    public OrderDaoImpl (Connection connection){this.connection = connection;}
 
     @Override
     public Integer create(Order order) throws PersistentException {
@@ -175,4 +179,27 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         }
 
     }
+
+    public List<Driver> getDriversForOrder (Order order) throws PersistentException {
+
+        String sql = "SELECT * FROM `driver_has_order` WHERE order_id = (?)";
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            List<Driver> driverList = new ArrayList<>();
+            statement.setInt(1,order.getIdentity());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                Driver driver = new Driver();
+                driver.setIdentity(resultSet.getInt("driver_id"));
+                driverList.add(driver);
+            }
+            return driverList;
+
+        } catch (SQLException e) {
+            logger.error("Somethind going wrong tryint to read List of Drivers for 'order' {}"+order.getIdentity());
+            throw new PersistentException(e);
+        }
+    }
+
 }

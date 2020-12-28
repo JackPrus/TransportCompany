@@ -6,6 +6,7 @@ import by.prus.finalproject.exception.PersistentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,10 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
 
     private static final Logger logger = LogManager.getLogger(ClientDaoImpl.class);
 
+    public ClientDaoImpl(Connection connection) {
+        this.connection = connection;
+    }
+
     @Override
     public Integer create(Client client) throws PersistentException {
         String sql = "INSERT INTO client (name, `data`, `type_id`) VALUES (?,?,?)";
@@ -24,6 +29,9 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
         try {
             statement = connection.prepareStatement(sql, statement.RETURN_GENERATED_KEYS);
             statement.setString(1,client.getName());
+            if (client.getData()!=null){
+                statement.setString(2,client.getData());
+            }
             statement.setInt(3,client.getClientType().getIdentity());
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
@@ -34,7 +42,7 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
                 throw new PersistentException();
             }
         } catch(SQLException e) {
-            logger.error("SQL exception trying to create field in table `truck`");
+            logger.error("SQL exception trying to create field in table `client`");
             throw new PersistentException(e);
         } finally {
             try {
@@ -52,8 +60,10 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
 
     @Override
     public Client read(Integer identity) throws PersistentException {
+
         String sql = "SELECT * FROM client WHERE id = (?)";
-        String sqlForOrders = "SELECT * FROM order WHERE truck_id = (?)";
+        String sqlForOrders = "SELECT * FROM sdek.order WHERE client_id =(?)";
+
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {

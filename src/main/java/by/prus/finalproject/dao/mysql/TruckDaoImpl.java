@@ -8,6 +8,7 @@ import by.prus.finalproject.exception.PersistentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +18,10 @@ import java.util.List;
 public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
 
     private static final Logger logger = LogManager.getLogger(TruckDaoImpl.class);
+
+    public TruckDaoImpl (Connection connection){
+        this.connection = connection;
+    }
 
     @Override
     public Truck readBytruckNo(String truckNo) {
@@ -35,7 +40,7 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
 
     @Override
     public Integer create(Truck truck) throws PersistentException {
-        String sql = "INSERT INTO truck (truck_no, `length_capasity(cm)`, `width_capasity(cm)`, `height_capasity(cm)`, isbusy, manager_id) VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO truck (truck_no, `length_capasity(cm)`, `width_capasity(cm)`, `height_capasity(cm)`, `weight_capasity(kg)`, isbusy, manager_id) VALUES (?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -75,7 +80,7 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
     @Override
     public Truck read(Integer identity) throws PersistentException {
         String sql = "SELECT * FROM truck WHERE id = (?)";
-        String sqlForOrders = "SELECT * FROM order WHERE truck_id = (?)";
+        String sqlForOrders = "SELECT * FROM sdek.order WHERE truck_id = (?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -83,7 +88,6 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
             statement.setInt(1, identity);
             resultSet = statement.executeQuery();
             Truck truck = null;
-            //truck_no, `length_capasity(cm)`, `width_capasity(cm)`, `height_capasity(cm)`, isbusy, manager_id
             if (resultSet.next()){
                 truck = new Truck();
 
@@ -95,7 +99,8 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
                 truck.setTruckNo(resultSet.getString("truck_no"));
                 truck.setLengthCapacity(resultSet.getInt("length_capasity(cm)"));
                 truck.setWidthCapacity(resultSet.getInt("width_capasity(cm)"));
-                truck.setWeighCapacity(resultSet.getInt("height_capasity(cm)"));
+                truck.setHeightCapacity(resultSet.getInt("height_capasity(cm)"));
+                truck.setWeighCapacity(resultSet.getInt("weight_capasity(kg)"));
                 truck.setBusy(resultSet.getBoolean("isbusy"));
                 truck.setManager(manager);
                 truck.setIdentity(identity);
@@ -124,17 +129,18 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
     @Override
     public void update(Truck truck) throws PersistentException {
 //truck_no, `length_capasity(cm)`, `width_capasity(cm)`, `height_capasity(cm)`, isbusy, manager_id
-        String sql = "UPDATE `truck` SET `truck_no` = ?, `length_capasity(cm)` = ?, `width_capasity(cm)` = ?, `height_capasity(cm)` = ? , isbusy = ?, manager_id =? WHERE `id` = ?";
+        String sql = "UPDATE `truck` SET `truck_no` = ?, `length_capasity(cm)` = ?, `width_capasity(cm)` = ?, `height_capasity(cm)` = ?, `weight_capasity(kg)`=?, isbusy = ?, manager_id =? WHERE `id` = ?";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
             statement.setString(1, truck.getTruckNo());
             statement.setInt(2, truck.getLengthCapacity());
             statement.setInt(3, truck.getWidthCapacity());
-            statement.setInt(4,truck.getWeighCapacity());
-            statement.setBoolean(5,truck.isBusy());
-            statement.setInt(6,truck.getManager().getIdentity());
-            statement.setInt(7,truck.getIdentity());
+            statement.setInt(4,truck.getHeightCapacity());
+            statement.setInt(5,truck.getWeighCapacity());
+            statement.setBoolean(6,truck.isBusy());
+            statement.setInt(7,truck.getManager().getIdentity());
+            statement.setInt(8,truck.getIdentity());
             statement.executeUpdate();
         } catch(SQLException e) {
             logger.error("Error trying to update information of in truck table ");

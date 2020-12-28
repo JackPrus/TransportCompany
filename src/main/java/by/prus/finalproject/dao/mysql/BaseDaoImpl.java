@@ -2,6 +2,8 @@ package by.prus.finalproject.dao.mysql;
 
 import by.prus.finalproject.bean.Order;
 import by.prus.finalproject.bean.Truck;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,14 +14,15 @@ import java.util.List;
 public class BaseDaoImpl {
 
     protected Connection connection;
+    private static final Logger logger = LogManager.getLogger(BaseDaoImpl.class);
 
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
 
 
-    public void fillOrderListWithID (String sqlForOrders, int identity, List<Order> orderList) throws SQLException {
-        try(PreparedStatement ps = connection.prepareStatement(sqlForOrders)){
+    public void fillOrderListWithID (String sql, int identity, List<Order> orderList) throws SQLException {
+        try(PreparedStatement ps = connection.prepareStatement(sql)){
             ps.setInt(1,identity);
             ResultSet orderResultSet = ps.executeQuery();
             while (orderResultSet.next()){
@@ -42,6 +45,17 @@ public class BaseDaoImpl {
             }
         }
 
+    }
+
+    public void createDriverOrder (int driverId, int orderId){
+        String sql = "INSERT INTO driver_has_order (`driver_id`, `order_id`) VALUES (?,?)";
+        try(PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setInt(1,driverId);
+            statement.setInt(2,orderId);
+            statement.executeQuery();
+        } catch (SQLException e) {
+            logger.error("SQL exception trying to create `driver_has_order`");
+        }
     }
 
 
