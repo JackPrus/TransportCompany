@@ -3,14 +3,21 @@ package by.prus.finalproject.dao.pool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.sql.PooledConnection;
 import java.sql.*;
 import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class WrapperConnector {
 
     private static final Logger logger = LogManager.getLogger(WrapperConnector.class);
 
     private Connection connection;
+    private BlockingQueue<PooledConnection> freeConnections = new LinkedBlockingQueue<>();
+    private Set<PooledConnection> usedConnections = new ConcurrentSkipListSet<>();
 
     public WrapperConnector() {
 
