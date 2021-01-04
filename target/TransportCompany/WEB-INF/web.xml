@@ -9,4 +9,12 @@
 
 
   <display-name>Archetype Created Web Application</display-name>
+
+  <jsp-config>
+    <taglib>
+      <taglib-uri>custom</taglib-uri>
+      <taglib-location>/WEB-INF/tld/custom.tld</taglib-location>
+    </taglib>
+  </jsp-config>
+
 </web-app>

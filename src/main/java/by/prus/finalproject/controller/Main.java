@@ -13,8 +13,12 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-        Date date = new Date();
-        System.out.println(date.getTime());
+        List<Integer> inList = new ArrayList<>();
+        inList.add(1);
+        inList.add(2);
+        inList.add(3);
+
+        System.out.println(inList);
 
 
     }
