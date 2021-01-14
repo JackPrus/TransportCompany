@@ -21,7 +21,7 @@ public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
     private static final Logger logger = LogManager.getLogger(ManagerDaoImpl.class);
 
     public ManagerDaoImpl(Connection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql, statement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement(sql);
             statement.setString(1, manager.getName());
             statement.setString(2,manager.getOffice().getCityName());
             statement.executeUpdate();
@@ -142,7 +142,7 @@ public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
             statement.setInt(1, identity);
             statement.executeUpdate();
         } catch(SQLException e) {
-            logger.error("Somethind going wrong doing delete position {} in 'order' table"+identity);
+            logger.error("Somethind going wrong doing delete position {} in 'manager' table"+identity);
             throw new PersistentException(e);
         } finally {
             try {

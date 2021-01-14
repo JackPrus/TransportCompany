@@ -19,7 +19,7 @@ public class DriverHasOrderDaoImpl extends BaseDaoImpl implements DriverHasOrder
     private static final Logger logger = LogManager.getLogger(DriverHasOrderDaoImpl.class);
 
     public DriverHasOrderDaoImpl(Connection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class DriverHasOrderDaoImpl extends BaseDaoImpl implements DriverHasOrder
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql, statement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement(sql);
             statement.setInt(1, driver.getIdentity());
             statement.setInt(2,order.getIdentity());
             statement.executeUpdate();

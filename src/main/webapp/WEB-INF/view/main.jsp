@@ -1,10 +1,32 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
+<fmt:setLocale value="${sessionScope.localization}"/>
+<fmt:setBundle basename="pagecontext"/>
 <html>
-    <body>
-        <H1>Hello</H1>>
+<head>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css" />
+    <title>
+        <fmt:message key="label.main.title"/>
+    </title>
+</head>
+<body>
 
-<!--
-<a href="/web-test/controller?command=my-orders"/>   ссылка на другую страничку
--->
+<div class="header">
+    <jsp:include page="parts/header.jsp"/>
+</div>
 
-    </body>
+<%--<div class="row">--%>
+
+<%--    <div class="main">--%>
+<%--        <h1><fmt:message key="label.main.welcome"/></h1>--%>
+<%--    </div>--%>
+<%--</div>--%>
+
+<div class="footer">
+    <jsp:include page="parts/footer.jsp"/>
+</div>
+
+</body>
 </html>

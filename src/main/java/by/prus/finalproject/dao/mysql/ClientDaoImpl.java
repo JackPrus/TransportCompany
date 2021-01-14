@@ -18,7 +18,7 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
     private static final Logger logger = LogManager.getLogger(ClientDaoImpl.class);
 
     public ClientDaoImpl(Connection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql, statement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement(sql);
             statement.setString(1,client.getName());
             if (client.getData()!=null){
                 statement.setString(2,client.getData());

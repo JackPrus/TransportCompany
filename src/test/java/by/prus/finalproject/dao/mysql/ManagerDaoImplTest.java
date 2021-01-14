@@ -1,10 +1,8 @@
 package by.prus.finalproject.dao.mysql;
 
-import by.prus.finalproject.bean.City;
-import by.prus.finalproject.bean.Client;
-import by.prus.finalproject.bean.ClientType;
-import by.prus.finalproject.bean.Manager;
+import by.prus.finalproject.bean.*;
 import by.prus.finalproject.dao.Dao;
+import by.prus.finalproject.dao.pool.ConnectionPool;
 import by.prus.finalproject.dao.pool.WrapperConnector;
 import by.prus.finalproject.exception.PersistentException;
 import org.testng.annotations.AfterClass;
@@ -17,19 +15,24 @@ import static org.testng.Assert.*;
 
 public class ManagerDaoImplTest {
 
-    private Dao<Manager> dao;
-    private Connection connection;
-    private WrapperConnector wc = new WrapperConnector();
+    Dao dao;
+    ConnectionPool cpool;
+    DaoHelper daoHelper;
 
     @BeforeClass
     public void before(){
-        connection=wc.getConnection();
-        dao = new ManagerDaoImpl(connection);
+        try {
+            cpool = ConnectionPool.getInstance();
+            daoHelper = new DaoHelper(cpool);
+            dao = daoHelper.createManagerDao();
+        } catch (PersistentException e) {
+            e.printStackTrace();
+        }
     }
 
     @AfterClass
     public void afterMethod(){
-        wc.closeConnection();
+        daoHelper.close();
     }
 
 
@@ -51,8 +54,7 @@ public class ManagerDaoImplTest {
         try {
             identy = dao.create(manager1);
             manager1.setIdentity(identy);
-            manager2 = dao.read(identy);
-
+            manager2 = (Manager) dao.read(identy);
         } catch (PersistentException e) {
             e.printStackTrace();
         }
@@ -70,7 +72,7 @@ public class ManagerDaoImplTest {
         int identy1 = 1;
 
         try{
-            manager = dao.read(identy1);
+            manager = (Manager) dao.read(identy1);
         } catch (PersistentException e) {
             e.printStackTrace();
         }
@@ -92,7 +94,7 @@ public class ManagerDaoImplTest {
 
         try{
             dao.update(manager4);
-            updated = dao.read(1);
+            updated = (Manager) dao.read(1);
         } catch (PersistentException e) {
             e.printStackTrace();
         }
@@ -110,7 +112,7 @@ public class ManagerDaoImplTest {
 
         try {
             dao.delete(4);
-            manager=dao.read(4);
+            manager= (Manager) dao.read(4);
         } catch (PersistentException e) {
             e.printStackTrace();
         }

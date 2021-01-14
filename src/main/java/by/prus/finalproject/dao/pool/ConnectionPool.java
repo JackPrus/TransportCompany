@@ -58,7 +58,7 @@ public class ConnectionPool {
         return instance;
     }
 
-    public void returnConnection(ProxyConnection proxyConnection) {
+    public void turnBackConnection(ProxyConnection proxyConnection) {
         semaphore.release();
         CONNECTIONS_LOCKER.lock();
         try {
@@ -90,7 +90,7 @@ public class ConnectionPool {
             connection.close();
         }
         for (ProxyConnection connection : availableConnections) {
-            connection.killConnection();                              //TODO kill connections and  logging
+            connection.killConnection();
         }
     }
 

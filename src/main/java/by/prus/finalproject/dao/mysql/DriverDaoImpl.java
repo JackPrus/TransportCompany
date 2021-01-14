@@ -14,7 +14,7 @@ import java.util.List;
 public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
 
     public DriverDaoImpl(Connection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     private static final Logger logger = LogManager.getLogger(DriverDaoImpl.class);
@@ -103,7 +103,7 @@ public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql, statement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement(sql);
             statement.setString(1, driver.getName());
             statement.setString(2, driver.getLicenseNo());
             statement.setBoolean(3, driver.isBusy());

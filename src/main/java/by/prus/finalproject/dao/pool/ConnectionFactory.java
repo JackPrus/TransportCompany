@@ -2,10 +2,8 @@ package by.prus.finalproject.dao.pool;
 
 import by.prus.finalproject.exception.ConnectionPoolException;
 import by.prus.finalproject.exception.PersistentException;
-import com.sun.mail.iap.ConnectionException;
 
 import java.io.InputStream;
-import java.net.ConnectException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;

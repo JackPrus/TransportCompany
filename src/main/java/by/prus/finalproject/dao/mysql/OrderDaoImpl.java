@@ -19,7 +19,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     private static final Logger logger = LogManager.getLogger(OrderDaoImpl.class);
 
-    public OrderDaoImpl (Connection connection){this.connection = connection;}
+    public OrderDaoImpl (Connection connection){super(connection);}
 
     @Override
     public Integer create(Order order) throws PersistentException {
@@ -27,7 +27,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql, statement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement(sql);
             if (order.getPickupAdress()!=null){
                 statement.setString(1,order.getPickupAdress());
             }

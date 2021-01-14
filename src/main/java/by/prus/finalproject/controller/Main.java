@@ -12,21 +12,10 @@ import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
-        List<Integer> inList = new ArrayList<>();
-        inList.add(1);
-        inList.add(2);
-        inList.add(3);
-
-        System.out.println(inList);
-
-
+    public static void main(String[] args) throws InterruptedException {
     }
 
-    public static void printOrder (List<Order> orders){
-        for (Order o : orders){
-            System.out.println(o.getIdentity());
-        }
-    }
+
+
 
 }

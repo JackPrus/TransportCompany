@@ -16,7 +16,7 @@ public class ProxyConnection implements Connection {
 
     @Override
     public void close() {
-        pool.returnConnection(this);
+        pool.turnBackConnection(this);
     }
 
     @Override
@@ -26,8 +26,14 @@ public class ProxyConnection implements Connection {
 
     @Override
     public PreparedStatement prepareStatement(String sql) throws SQLException {
-        return connection.prepareStatement(sql);
+        PreparedStatement statement= null;
+        statement = connection.prepareStatement(sql, statement.RETURN_GENERATED_KEYS);
+        return statement;
     }
+
+
+
+
     public void killConnection() throws SQLException {
         connection.close();
     }

@@ -20,7 +20,7 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
     private static final Logger logger = LogManager.getLogger(TruckDaoImpl.class);
 
     public TruckDaoImpl (Connection connection){
-        this.connection = connection;
+        super(connection);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql, statement.RETURN_GENERATED_KEYS);
+            statement = connection.prepareStatement(sql);
             statement.setString(1, truck.getTruckNo());
             statement.setInt(2, truck.getLengthCapacity());
             statement.setInt(3,truck.getWidthCapacity());
