@@ -8,11 +8,16 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+
+
+//@WebServlet("/controller")
 public class Controller extends HttpServlet {
 
     private static final String COMMAND = "command";
@@ -29,6 +34,8 @@ public class Controller extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         process(request, response);
     }
+
+    //todo разделение гет пост
 
     private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -49,7 +56,6 @@ public class Controller extends HttpServlet {
             request.setAttribute(ERROR_MESSAGE_PARAM, e.getMessage()); //TODO change error message and page
             forwardPage(ERROR_PAGE, request, response);
         }
-
     }
 
     private void forwardPage(String page, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

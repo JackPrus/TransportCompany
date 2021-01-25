@@ -19,17 +19,17 @@ public class LoginCommand implements Command {
     private static final String USER_LOGIN = "login";
     private static final String USER_PASSWORD = "password";
     private static final String USER_ROLE = "userRole";
+    private static final String CLIENT_ID = "client_id";
     private static final String USER_PAGE = "WEB-INF/view/userPage.jsp";
     private static final String LOGIN_PAGE = "WEB-INF/view/login.jsp";
+    private static final String LOGIN_MANAGER_PAGE = "WEB-INF/view/managerPage.jsp";
     private static final String ERROR_MESSAGE_PARAM = "errorMessage";
     private static final String ERROR_MESSAGE_WRONG_LOGIN_PASSWORD = "wrong_login";
     private static final String CURRENT_PAGE = "currentPage";
 
     private final LoginService loginService;
 
-    public LoginCommand(LoginService loginService) {
-        this.loginService = loginService;
-    }
+    public LoginCommand(LoginService loginService) { this.loginService = loginService; }
 
     @Override
     public CommandResult execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException, PersistentException {
@@ -43,12 +43,21 @@ public class LoginCommand implements Command {
         if (user!=null) {
             Integer userId = user.getIdentity();
             Role role = user.getRole();
+            int clientId = user.getClientId();
 
             HttpSession session = request.getSession();
             session.setAttribute(USER_ROLE, role);
             session.setAttribute(USER_ID, userId);
-            request.setAttribute(CURRENT_PAGE, USER_PAGE);
-            return CommandResult.forward(USER_PAGE);
+
+
+            if (role.equals(Role.MANAGER)) {
+                return CommandResult.forward(LOGIN_MANAGER_PAGE);
+            } else {
+                request.setAttribute(CLIENT_ID, clientId);
+                request.setAttribute(CURRENT_PAGE, USER_PAGE);
+                return CommandResult.forward(USER_PAGE);
+            }
+
         } else {
             request.setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_WRONG_LOGIN_PASSWORD);
             return CommandResult.forward(LOGIN_PAGE);

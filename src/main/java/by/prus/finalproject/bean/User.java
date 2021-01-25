@@ -6,6 +6,8 @@ public class User extends Entity {
     private String email;
     private String password;
     private Role role;
+    private int clientId;
+    private int managerId;
 
     public User (){}
 
@@ -17,6 +19,10 @@ public class User extends Entity {
         this.role = role;
     }
 
+    public int getClientId() { return clientId; }
+    public void setClientId(int clientId) { this.clientId = clientId; }
+    public int getManagerId() { return managerId; }
+    public void setManagerId(int managerId) { this.managerId = managerId; }
     public String getLogin() { return login; }
     public void setLogin(String login) { this.login = login; }
     public String getEmail() { return email; }

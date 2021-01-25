@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-public class UserDaoImpl2Test {
+class UserDaoImplTest {
 
     private Dao<User> dao;
     private Connection connection;
@@ -23,7 +23,7 @@ public class UserDaoImpl2Test {
     @BeforeClass
     public void before(){
         connection=wc.getConnection();
-        dao = new UserDaoImpl2(connection);
+        dao = new UserDaoImpl(connection);
     }
     @AfterClass
     public void afterMethod(){
@@ -104,16 +104,12 @@ public class UserDaoImpl2Test {
     }
 
     @Test
-    public void testDelete() {
-
-
-
-    }
+    public void testDelete() { }
 
     @Test
     public void testReadAllUsers() throws PersistentException {
 
-        List<User> userList1 = ((UserDaoImpl2) dao).readAllUsers();
+        List<User> userList1 = ((UserDaoImpl) dao).readAllUsers();
 
         assertEquals(userList1.size(),1);
         assertEquals((int)userList1.get(0).getIdentity(), 1);

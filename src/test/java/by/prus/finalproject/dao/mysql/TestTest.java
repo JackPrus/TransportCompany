@@ -1,7 +1,6 @@
 package by.prus.finalproject.dao.mysql;
 
-import org.junit.ClassRule;
-import org.junit.rules.ExternalResource;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

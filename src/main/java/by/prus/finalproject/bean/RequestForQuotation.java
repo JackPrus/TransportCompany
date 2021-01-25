@@ -16,7 +16,6 @@ public class RequestForQuotation {
     private double weight; // kg
     private Client client;
 
-
     public RequestForQuotation (){}
 
     public RequestForQuotation(City cityPickUp, City cityDelivery, int length, int width, int height, double weight, Client client) {

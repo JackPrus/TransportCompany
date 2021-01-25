@@ -9,12 +9,24 @@
 
 
   <display-name>Archetype Created Web Application</display-name>
-<!--
-  <jsp-config>
-    <taglib>
-      <taglib-uri>custom</taglib-uri>
-      <taglib-location>/WEB-INF/tld/custom.tld</taglib-location>
-    </taglib>
-  </jsp-config>
--->
+
+  <servlet>
+    <servlet-name>controller</servlet-name>
+    <servlet-class>by.prus.finalproject.controller.Controller</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>controller</servlet-name>
+    <url-pattern>/controller</url-pattern>
+  </servlet-mapping>
+
+  <filter>
+    <filter-name>LocalizationFilter</filter-name>
+    <filter-class>by.prus.finalproject.service.filter.SessionLocaleFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>LocalizationFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
 </web-app>

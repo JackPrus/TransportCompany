@@ -18,7 +18,7 @@ public class DaoHelper implements AutoCloseable {
     }
 
     public ManagerDao createManagerDao() { return new ManagerDaoImpl(connection); }
-    public UserDao createUserDao() {return new UserDaoImpl2(connection);}
+    public UserDao createUserDao() {return new UserDaoImpl(connection);}
     public ClientDao createClientDao(){return new ClientDaoImpl(connection);}
 
     public void close() {
