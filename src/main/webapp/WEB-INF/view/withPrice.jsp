@@ -32,17 +32,55 @@
     <div class="main">
         <div class="form">
             <form name="orderForm" method="post" action="controller?command=order">
-                <%--                сделать команду order--%>
-                <h2><fmt:message key="label.requestform.resultText"/></h2>
+
+                <h3><fmt:message key="label.requestform.length"/>    ${param.length} <br>
+                <h3><fmt:message key="label.requestform.width"/>    ${param.width} <br>
+                <h3><fmt:message key="label.requestform.height"/>   ${param.height} <br>
+                <h3><fmt:message key="label.requestform.weight"/>   ${param.weight} <br>
+                <h3><fmt:message key="label.requestform.city_pickup"/>   ${param.city1} <br>
+                <h3><fmt:message key="label.requestform.city_delibery"/>   ${param.city2} <br>
+
+                    <h3><label for="adressPickUp"><fmt:message key="label.orderform.pickup_address"/> <br>
+                        <input type="text" id= "adressPickUp" name="adressPickUp" value=""/>
+                    </label>
                     </h3>
 
-                    <h2><fmt:message key="label.requestform.resultText"/></h2>
-                    ${price}
+                    <h3><label for="adressDelivery"><fmt:message key="label.orderform.delivery_address"/> <br>
+                        <input type="text" id= "adressDelivery" name="adressDelivery" value=""/>
+                    </label>
                     </h3>
+
+                    <h3><fmt:message key="label.requestform.resultText"   />   ${price}</h3>
 
                     <p>
                         <input type="submit" value="<fmt:message key="label.orderform.submitorder"/>"/>
                     </p>
+
+                    <input type="hidden" name="length" value="${param.length}"/><br>
+                    <input type="hidden" name="width" value="${param.width}"/><br>
+                    <input type="hidden" name="height" value="${param.height}"/><br>
+                    <input type="hidden" name="weight" value="${param.weight}"/><br>
+                    <input type="hidden" name="city1" value="${param.city1}"/><br>
+                    <input type="hidden" name="city2" value="${param.city2}"/><br>
+                    <input type="hidden" name="price" value="${price}"/><br>
+
+
+<%--                    <jsp:useBean id="rfq" scope="request" class="by.prus.finalproject.bean.RequestForQuotation" />--%>
+<%--                    <jsp:setProperty name="rfq" property="length" value= "${param.length}" />--%>
+<%--                    <jsp:setProperty name="rfq" property="width" value= "${param.width}" />--%>
+<%--                    <jsp:setProperty name="rfq" property="height" value= "${param.height}" />--%>
+<%--                    <jsp:setProperty name="rfq" property="weight" value= "${param.weight}" />--%>
+<%--                    <jsp:setProperty name="rfq" property="city1" value= "${param.city1}" />--%>
+<%--                    <jsp:setProperty name="rfq" property="city2" value= "${param.city2}" />--%>
+<%--                    <jsp:setProperty name="rfq" property="price" value= "${param.price}" />--%>
+
+            </form>
+
+            <form name="requestForm" method="post" action="controller?command=gotorequest">
+
+             <p>
+                 <input type="submit" value="<fmt:message key="label.orderform.correction"/>"/>
+             </p>
 
             </form>
 

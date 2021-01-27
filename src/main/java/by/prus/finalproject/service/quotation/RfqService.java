@@ -75,10 +75,10 @@ public class RfqService {
 
         if (f_space>0.7){ k_space = 1.1;
         }else if (f_space>0.5&&f_space<=0.7){ k_space = 1.5;
-        }else if (f_space>0.3&&f_space<=0.5){ k_space = 1.9;
-        }else if (f_space>0.2&&f_space<=0.3){ k_space = 2.2;
-        }else if (f_space>0.1&&f_space<=0.2){ k_space = 2.5;
-        }else if (f_space<=0.1){ k_space = 2.8;
+        }else if (f_space>0.3&&f_space<=0.5){ k_space = 2.7;
+        }else if (f_space>0.2&&f_space<=0.3){ k_space = 3.2;
+        }else if (f_space>0.1&&f_space<=0.2){ k_space = 4.5;
+        }else if (f_space<=0.1){ k_space = 25.9;
         }
 
         //коэффициент использования грузоподъемности транспортного средства
@@ -86,10 +86,10 @@ public class RfqService {
 
         if (f_weight>0.7){ k_weight = 1.1;
         }else if (f_weight>0.5&&f_weight<=0.7){ k_weight = 1.5;
-        }else if (f_weight>0.3&&f_weight<=0.5){ k_weight = 1.9;
-        }else if (f_weight>0.2&&f_weight<=0.3){ k_weight = 2.2;
-        }else if (f_weight>0.1&&f_weight<=0.2){ k_weight = 2.5;
-        }else if (f_weight<=0.1){ k_weight = 2.8;
+        }else if (f_weight>0.3&&f_weight<=0.5){ k_weight = 2.7;
+        }else if (f_weight>0.2&&f_weight<=0.3){ k_weight = 3.2;
+        }else if (f_weight>0.1&&f_weight<=0.2){ k_weight = 4.5;
+        }else if (f_weight<=0.1){ k_weight = 25.9;
         }
 
         //используется понижение коэффициента, если большая заполняемость от одного заказчика

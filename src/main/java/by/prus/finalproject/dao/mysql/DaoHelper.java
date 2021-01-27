@@ -2,6 +2,7 @@ package by.prus.finalproject.dao.mysql;
 
 import by.prus.finalproject.dao.ClientDao;
 import by.prus.finalproject.dao.ManagerDao;
+import by.prus.finalproject.dao.OrderDao;
 import by.prus.finalproject.dao.UserDao;
 import by.prus.finalproject.dao.pool.ConnectionPool;
 import by.prus.finalproject.dao.pool.ProxyConnection;
@@ -20,6 +21,7 @@ public class DaoHelper implements AutoCloseable {
     public ManagerDao createManagerDao() { return new ManagerDaoImpl(connection); }
     public UserDao createUserDao() {return new UserDaoImpl(connection);}
     public ClientDao createClientDao(){return new ClientDaoImpl(connection);}
+    public OrderDao createOrderDao(){return new OrderDaoImpl(connection);}
 
     public void close() {
         connection.close();

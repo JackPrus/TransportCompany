@@ -1,16 +1,14 @@
 package by.prus.finalproject.dao.mysql;
 
 import by.prus.finalproject.bean.*;
+import by.prus.finalproject.bean.Driver;
 import by.prus.finalproject.dao.DriverDao;
 import by.prus.finalproject.dao.OrderDao;
 import by.prus.finalproject.exception.PersistentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,14 +26,10 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         ResultSet resultSet = null;
         try {
             statement = connection.prepareStatement(sql);
-            if (order.getPickupAdress()!=null){
-                statement.setString(1,order.getPickupAdress());
-            }
+            statement.setString(1,order.getPickupAdress());
             statement.setString(2, order.getCityPickUp().getCityName());
             statement.setString(3,order.getCityDelivery().getCityName());
-            if (order.getUnloadingAdress()!=null){
-                statement.setString(4,order.getUnloadingAdress());
-            }
+            statement.setString(4,order.getUnloadingAdress());
             statement.setInt(5, order.getLength());
             statement.setInt(6,order.getWidth());
             statement.setInt(7, order.getHeight());
@@ -43,9 +37,16 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             statement.setDate(9,new java.sql.Date(order.getOrderDate().getTime()));
             statement.setBoolean(10, order.isActive());
             statement.setBigDecimal(11, order.getPrice());
-            statement.setInt(12, order.getTruck().getIdentity());
-            statement.setInt(13, order.getManager().getIdentity());
-            statement.setInt(14,order.getClient().getIdentity());
+
+            if (order.getTruck()==null){ statement.setNull(12, java.sql.Types.INTEGER);
+            }else{ statement.setInt(12, order.getTruck().getIdentity()); }
+
+            if (order.getManager()==null){ statement.setNull(13, Types.INTEGER);
+            }else{ statement.setInt(13, order.getManager().getIdentity()); }
+
+            if (order.getClient()==null){ statement.setNull(14,Types.INTEGER);
+            }else { statement.setInt(14,order.getClient().getIdentity()); }
+
 
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
@@ -198,6 +199,54 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
         } catch (SQLException e) {
             logger.error("Somethind going wrong tryint to read List of Drivers for 'order' {}"+order.getIdentity());
+            throw new PersistentException(e);
+        }
+    }
+
+    public List<Order> getOrdersByClient (Client client) throws PersistentException {
+        String sql = "SELECT * FROM `order` WHERE client_id = (?) ORDER BY isactive, date";
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, client.getIdentity());
+            ResultSet resultSet = statement.executeQuery();
+
+            List<Order> orderList = new ArrayList<>();
+
+            while (resultSet.next()){
+
+                Order order = new Order();
+                Truck truck = new Truck();
+                Manager manager = new Manager();
+                //Client client = new Client();
+
+                truck.setIdentity(resultSet.getInt("truck_id"));
+                manager.setIdentity(resultSet.getInt("manager_id"));
+                client.setIdentity(resultSet.getInt("client_id"));
+
+                order.setIdentity(resultSet.getInt("id"));
+                order.setPickupAdress(resultSet.getString("pickup adress"));
+                order.setCityPickUp(City.getCity(resultSet.getString("city_pickup")));
+                order.setCityDelivery(City.getCity(resultSet.getString("city_delivery")));
+                order.setUnloadingAdress(resultSet.getString("unloading adress"));
+                order.setLength(resultSet.getInt("length_cm"));
+                order.setWidth(resultSet.getInt("width_cm"));
+                order.setHeight(resultSet.getInt("height_cm"));
+                order.setWeight(resultSet.getDouble("weight_kg"));
+                order.setOrderDate(resultSet.getDate("date"));
+                order.setActive(resultSet.getBoolean("isactive"));
+                order.setPrice(resultSet.getBigDecimal("price"));
+                order.setTruck(truck);
+                order.setManager(manager);
+                order.setClient(client);
+
+                orderList.add(order);
+
+            }
+
+            return orderList;
+
+        } catch(SQLException e) {
+            logger.error("SQL exception trying to read from `order`");
             throw new PersistentException(e);
         }
     }

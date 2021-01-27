@@ -20,20 +20,14 @@
 
 <div class="left-pane">
     <c:if test="${userRole eq 'CLIENT'}">
-        <form name="userForm" method="post" action="controller?command=applicationHistory">
-            <input type="submit" value="<fmt:message key="label.left_pane.guest.all_applications"/>"/>
+        <form name="userForm" method="post" action="controller?command=allOrdersForClient">
+            <input type="submit" value="<fmt:message key="label.left_pane.client.all_orders"/>"/>
         </form>
 
-        <form name="userForm" method="post" action="controller?command=GuestInvoicesHistory">
-            <input name="button" type="button" value="<fmt:message key="label.left_pane.guest.all_invoices"/>"/>
-        </form>
-        <form name="userForm" method="post" action="controller?command=bookingPage">
-            <input type="button" value="<fmt:message key="label.left_pane.guest.add_application"/>"/>
-        </form>
     </c:if>
 
 
-    <c:if test="${userRole eq 'CLIENT'}">
+    <c:if test="${userRole eq 'MANAGER'}">
         <form name="adminForm" method="post" action="controller?command=allRooms">
             <input type="submit" value="<fmt:message key="label.left_pane.admin.all_rooms"/>"/>
         </form>

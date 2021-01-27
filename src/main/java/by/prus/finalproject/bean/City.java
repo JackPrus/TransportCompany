@@ -23,7 +23,7 @@ public enum City {
     POLOTSK("Polotsk"), //17
     ORSHA("Orsha"),  //18
 
-    MAHILYOW ("Mahilyov"),  //19
+    MAHILYOW ("Mahilyow"),  //19
     GORKY("Gorky"), //20
     MSTISLAVL("Mstislavl"), //21
     KRYCHEV("Krychev"), //22
@@ -64,7 +64,7 @@ public enum City {
 
     public static City getCity (String cityName){
         for (City city : City.values()){
-            if (city.getCityName().equals(cityName)){
+            if (city.getCityName().equalsIgnoreCase(cityName)){
                 return city;
             }
         }

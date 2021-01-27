@@ -20,8 +20,6 @@ public class Order extends Entity {
     private Manager manager;
     private Client client;
 
-
-
     public Order (){}
 
     public String getPickupAdress() { return pickupAdress; }

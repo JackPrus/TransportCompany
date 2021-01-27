@@ -20,6 +20,7 @@ public class LoginCommand implements Command {
     private static final String USER_PASSWORD = "password";
     private static final String USER_ROLE = "userRole";
     private static final String CLIENT_ID = "client_id";
+    private static final String MANAGER_ID = "manager_id";
     private static final String USER_PAGE = "WEB-INF/view/userPage.jsp";
     private static final String LOGIN_PAGE = "WEB-INF/view/login.jsp";
     private static final String LOGIN_MANAGER_PAGE = "WEB-INF/view/managerPage.jsp";
@@ -44,16 +45,18 @@ public class LoginCommand implements Command {
             Integer userId = user.getIdentity();
             Role role = user.getRole();
             int clientId = user.getClientId();
+            int managerId = user.getManagerId();
 
             HttpSession session = request.getSession();
             session.setAttribute(USER_ROLE, role);
             session.setAttribute(USER_ID, userId);
 
-
             if (role.equals(Role.MANAGER)) {
+                session.setAttribute(MANAGER_ID, managerId);
                 return CommandResult.forward(LOGIN_MANAGER_PAGE);
             } else {
-                request.setAttribute(CLIENT_ID, clientId);
+                session.setAttribute(CLIENT_ID, clientId);
+                request.setAttribute(CLIENT_ID, clientId); // удалить
                 request.setAttribute(CURRENT_PAGE, USER_PAGE);
                 return CommandResult.forward(USER_PAGE);
             }

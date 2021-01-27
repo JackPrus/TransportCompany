@@ -1,7 +1,7 @@
 * {
     box-sizing: border-box;
 }
-
+.header{background: #1fd492;}
 .row {
     display: flex;
     flex-wrap: wrap;

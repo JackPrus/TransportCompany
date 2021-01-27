@@ -7,6 +7,7 @@ import by.prus.finalproject.dao.pool.WrapperConnector;
 import by.prus.finalproject.exception.ServiceException;
 import by.prus.finalproject.service.quotation.RfqService;
 
+import javax.xml.rpc.holders.BigDecimalHolder;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,9 +18,8 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-
-        List<Integer> qq = new ArrayList<>();
-        qq.remove(0);
+        BigDecimal price = new BigDecimal("0.01");
+        System.out.println(price);
     }
 }
 

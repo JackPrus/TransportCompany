@@ -4,6 +4,7 @@ package by.prus.finalproject.controller.command;
 import by.prus.finalproject.controller.command.implementation.*;
 import by.prus.finalproject.dao.mysql.DaoHelperFactory;
 import by.prus.finalproject.service.entityservice.LoginService;
+import by.prus.finalproject.service.entityservice.OrderService;
 import by.prus.finalproject.service.quotation.RfqService;
 
 public class CommandFactory {
@@ -12,7 +13,9 @@ public class CommandFactory {
     private static final String LOGIN_COMMAND = "login";
     private static final String RFQ = "request";
     private static final String LOGOUT_COMMAND = "logout";
-
+    private static final String GO_BACK_TO_REQUEST = "gotorequest";
+    private static final String NEW_ORDER = "order";
+    private static final String ALLORDERS_FOR_CLIENT = "allOrdersForClient";
 
     private static final String CONTACTS_PAGE = "contactsPage";
     private static final String ABOUT_US_PAGE = "aboutUsPage";
@@ -29,7 +32,12 @@ public class CommandFactory {
                 return new RfqCommand(new RfqService());
             case LOGOUT_COMMAND:
                 return new LogOutCommand();
-
+            case NEW_ORDER:
+                return new CreateNewOrderCommand(new OrderService(new DaoHelperFactory()));
+            case ALLORDERS_FOR_CLIENT:
+                return new GetClientsOrdersCommand(new OrderService(new DaoHelperFactory()));
+            case GO_BACK_TO_REQUEST:
+                return new GoToPageCommand("WEB-INF/view/userPage.jsp");
             case AUTHORIZATION_COMMAND:
                 return new GoToPageCommand("WEB-INF/view/login.jsp");
             case CONTACTS_PAGE:
