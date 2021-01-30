@@ -251,4 +251,94 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         }
     }
 
+    public List<Order> getOrdersOfManager (Manager manager) throws PersistentException{
+        String sql = "SELECT * FROM `order` WHERE manager_id =(?) ORDER BY date";
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, manager.getIdentity());
+            ResultSet resultSet = statement.executeQuery();
+            List<Order> orderList = new ArrayList<>();
+
+            while (resultSet.next()){
+
+                Order order = new Order();
+                Truck truck = new Truck();
+                //Manager manager = new Manager();
+                Client client = new Client();
+
+                truck.setIdentity(resultSet.getInt("truck_id"));
+                manager.setIdentity(resultSet.getInt("manager_id"));
+                client.setIdentity(resultSet.getInt("client_id"));
+
+                order.setIdentity(resultSet.getInt("id"));
+                order.setPickupAdress(resultSet.getString("pickup adress"));
+                order.setCityPickUp(City.getCity(resultSet.getString("city_pickup")));
+                order.setCityDelivery(City.getCity(resultSet.getString("city_delivery")));
+                order.setUnloadingAdress(resultSet.getString("unloading adress"));
+                order.setLength(resultSet.getInt("length_cm"));
+                order.setWidth(resultSet.getInt("width_cm"));
+                order.setHeight(resultSet.getInt("height_cm"));
+                order.setWeight(resultSet.getDouble("weight_kg"));
+                order.setOrderDate(resultSet.getDate("date"));
+                order.setActive(resultSet.getBoolean("isactive"));
+                order.setPrice(resultSet.getBigDecimal("price"));
+                order.setTruck(truck);
+                order.setManager(manager);
+                order.setClient(client);
+
+                orderList.add(order);
+            }
+            return orderList;
+
+        } catch(SQLException e) {
+            logger.error("SQL exception trying to read from `order`");
+            throw new PersistentException(e);
+        }
+    }
+
+    public List<Order> getOrdersWithoutManager () throws PersistentException{
+        String sql = "SELECT * FROM `order` WHERE manager_id IS NULL ORDER BY date";
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            //statement.setInt(1, manager.getIdentity());
+            ResultSet resultSet = statement.executeQuery();
+            List<Order> orderList = new ArrayList<>();
+
+            while (resultSet.next()){
+
+                Order order = new Order();
+                Truck truck = new Truck();
+                Manager manager = new Manager();
+                Client client = new Client();
+
+                truck.setIdentity(resultSet.getInt("truck_id"));
+                manager.setIdentity(resultSet.getInt("manager_id"));
+                client.setIdentity(resultSet.getInt("client_id"));
+
+                order.setIdentity(resultSet.getInt("id"));
+                order.setPickupAdress(resultSet.getString("pickup adress"));
+                order.setCityPickUp(City.getCity(resultSet.getString("city_pickup")));
+                order.setCityDelivery(City.getCity(resultSet.getString("city_delivery")));
+                order.setUnloadingAdress(resultSet.getString("unloading adress"));
+                order.setLength(resultSet.getInt("length_cm"));
+                order.setWidth(resultSet.getInt("width_cm"));
+                order.setHeight(resultSet.getInt("height_cm"));
+                order.setWeight(resultSet.getDouble("weight_kg"));
+                order.setOrderDate(resultSet.getDate("date"));
+                order.setActive(resultSet.getBoolean("isactive"));
+                order.setPrice(resultSet.getBigDecimal("price"));
+                order.setTruck(truck);
+                order.setManager(manager);
+                order.setClient(client);
+
+                orderList.add(order);
+            }
+            return orderList;
+
+        } catch(SQLException e) {
+            logger.error("SQL exception trying to read from `order`");
+            throw new PersistentException(e);
+        }
+    }
+
 }

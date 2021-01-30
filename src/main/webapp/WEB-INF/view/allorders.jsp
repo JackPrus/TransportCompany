@@ -32,24 +32,50 @@
     <div class="main">
         <div class="form">
 
-            <c:forEach items="${allOrdersForClient}" var="orders">
-                ${orders.identity}  <%-- BookBean fields that you want print out--%>
-                ${orders.pickupAdress}
-                ${orders.cityPickUp}
-                ${orders.cityDelivery}
-                ${orders.unloadingAdress}
-                ${orders.length}
-                ${orders.width}
-                ${orders.height}
-                ${orders.weight}
-                ${orders.orderDate}
-                ${orders.isActive}
-                ${orders.price}
-                ${orders.truck.identity}
-                ${orders.manager.identity}
-                ${orders.client.identity}
-                <%-- another fields --%>
-            </c:forEach>
+            <table width="100%" border="4" cellpadding="4">
+
+                <tr>
+                    <th>ID</th>
+                    <th><fmt:message key="label.ordertable.address_pick_up"/></th>
+                    <th><fmt:message key="label.ordertable.loading_city"/></th>
+                    <th><fmt:message key="label.ordertable.unloading_city"/></th>
+                    <th><fmt:message key="label.ordertable.address_ubloading"/></th>
+                    <th><fmt:message key="label.ordertable.length"/></th>
+                    <th><fmt:message key="label.ordertable.width"/></th>
+                    <th><fmt:message key="label.ordertable.height"/></th>
+                    <th><fmt:message key="label.ordertable.weight"/></th>
+                    <th><fmt:message key="label.ordertable.date"/></th>
+                    <th><fmt:message key="label.ordertable.isactive"/></th>
+                    <th><fmt:message key="label.ordertable.price"/></th>
+                    <th><fmt:message key="label.ordertable.truck_id"/></th>
+                    <th><fmt:message key="label.ordertable.manager_id"/></th>
+                    <th><fmt:message key="label.ordertable.client_id"/></th>
+                </tr>
+
+            <c:forEach items="${allOrdersForClient}" var="order">
+                <tr>
+
+                    <td>${order.identity}</td>
+                    <td>${order.pickupAdress}</td>
+                    <td>${order.cityPickUp}</td>
+                    <td>${order.cityDelivery}</td>
+                    <td>${order.unloadingAdress}</td>
+                    <td>${order.length}</td>
+                    <td>${order.width}</td>
+                    <td>${order.height}</td>
+                    <td>${order.weight}</td>
+                    <td>${order.orderDate}</td>
+                    <td>${order.active}</td>
+                    <td>${order.price}</td>
+                    <td>${order.truck.identity}</td>
+                    <td>${order.manager.identity}</td>
+                    <td>${order.client.identity}</td>
+
+                </tr>
+
+                </c:forEach>
+
+            </table>
 
             ${errorMessage}
         </div>

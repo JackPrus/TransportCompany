@@ -1,6 +1,7 @@
 package by.prus.finalproject.service.entityservice;
 
 import by.prus.finalproject.bean.Client;
+import by.prus.finalproject.bean.Manager;
 import by.prus.finalproject.bean.Order;
 import by.prus.finalproject.dao.OrderDao;
 import by.prus.finalproject.dao.mysql.DaoHelper;
@@ -36,4 +37,21 @@ public class OrderService {
         }
     }
 
+    public List<Order>getOrdersOfManager (Manager manager) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()){
+            OrderDao dao = daoHelper.createOrderDao();
+            return dao.getOrdersOfManager(manager);
+        }catch (PersistentException e){
+            throw new ServiceException(e);
+        }
+    }
+
+    public List<Order>getOrdersWithoutManager () throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()){
+            OrderDao dao = daoHelper.createOrderDao();
+            return dao.getOrdersWithoutManager();
+        }catch (PersistentException e){
+            throw new ServiceException(e);
+        }
+    }
 }

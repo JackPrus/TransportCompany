@@ -18,7 +18,7 @@ public enum ClientType {
 
     public static ClientType ct (int typeID){
         for (ClientType ct : ClientType.values()){
-            if (ct.getIdentity().equals(typeID)){
+            if (ct.getIdentity()==typeID){
                 return ct;
             }
         }

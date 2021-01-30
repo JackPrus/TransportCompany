@@ -31,7 +31,7 @@
     </div>
     <div class="main">
         <div class="form">
-            <form name="orderForm" method="post" action="controller?command=order">
+            <form name="orderForm" method="post" action="controller?command=order" accept-charset="UTF-8">
 
                 <h3><fmt:message key="label.requestform.length"/>    ${param.length} <br>
                 <h3><fmt:message key="label.requestform.width"/>    ${param.width} <br>

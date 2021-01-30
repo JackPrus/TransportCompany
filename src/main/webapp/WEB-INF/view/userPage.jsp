@@ -31,12 +31,12 @@
     </div>
     <div class="main">
         <div class="form">
-            <form name="bookingForm" method="post" action="controller?command=request">
+            <form name="bookingForm" method="post" action="controller?command=request" accept-charset="UTF-8">
 <%--                сделать команду request--%>
                 <h2><fmt:message key="label.requestform.text"/></h2>
 
 
-                <h3><label for="length"><fmt:message key="label.requestform.length"/> <br>
+                <h3><label for="length"><fmt:message key="label.requestform.length" /> <br>
                     <input type="number" id= "length" name="length" value="" min="1" max="1300"/>
                 </label>
                 </h3>

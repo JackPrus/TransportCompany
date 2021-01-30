@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: User
-  Date: 27.01.2021
-  Time: 20:57
+  Date: 29.01.2021
+  Time: 15:05
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -52,26 +52,26 @@
                     <th><fmt:message key="label.ordertable.client_id"/></th>
                 </tr>
 
-            <c:forEach items="${allOrdersForClient}" var="order">
-                <tr>
+                <c:forEach items="${ordersWithoutManager}" var="order">
+                    <tr>
 
-                    <td>${order.identity}</td>
-                    <td>${order.pickupAdress}</td>
-                    <td>${order.cityPickUp}</td>
-                    <td>${order.cityDelivery}</td>
-                    <td>${order.unloadingAdress}</td>
-                    <td>${order.length}</td>
-                    <td>${order.width}</td>
-                    <td>${order.height}</td>
-                    <td>${order.weight}</td>
-                    <td>${order.orderDate}</td>
-                    <td>${order.active}</td>
-                    <td>${order.price}</td>
-                    <td>${order.truck.identity}</td>
-                    <td>${order.manager.identity}</td>
-                    <td>${order.client.identity}</td>
+                        <td>${order.identity}</td>
+                        <td>${order.pickupAdress}</td>
+                        <td>${order.cityPickUp}</td>
+                        <td>${order.cityDelivery}</td>
+                        <td>${order.unloadingAdress}</td>
+                        <td>${order.length}</td>
+                        <td>${order.width}</td>
+                        <td>${order.height}</td>
+                        <td>${order.weight}</td>
+                        <td>${order.orderDate}</td>
+                        <td>${order.active}</td>
+                        <td>${order.price}</td>
+                        <td>${order.truck.identity}</td>
+                        <td>${order.manager.identity}</td>
+                        <td>${order.client.identity}</td>
 
-                </tr>
+                    </tr>
 
                 </c:forEach>
 

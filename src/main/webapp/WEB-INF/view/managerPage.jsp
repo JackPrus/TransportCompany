@@ -31,7 +31,7 @@
     </div>
     <div class="main">
         <div class="form">
-            <form name="bookingForm" method="post" action="controller?command=request">
+            <form name="bookingForm" method="post" action="controller?command=ordersOfManager">
                 <%--                сделать команду request--%>
                 <h2><fmt:message key="label.managerform.orders"/></h2>
 
@@ -39,12 +39,17 @@
                         <input type="submit" value="<fmt:message key="label.managerform.buttonOrders"/>"/>
                     </p>
 
+
+            </form>
+
+            <form name="bookingForm" method="post" action="controller?command=ordersWithoutManager">
+
                 </h3>
 
-                    <h2><fmt:message key="label.managerform.requests"/></h2>
-                    <p>
-                        <input type="submit" value="<fmt:message key="label.managerform.buttonRequest"/>"/>
-                    </p>
+                <h2><fmt:message key="label.managerform.requests"/></h2>
+                <p>
+                    <input type="submit" value="<fmt:message key="label.managerform.buttonRequest"/>"/>
+                </p>
 
                 </h3>
 

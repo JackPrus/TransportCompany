@@ -15,6 +15,15 @@
         <a href="controller?command=mainPage"><fmt:message key="label.header.home"/></a>
         <a href="controller?command=aboutUsPage"><fmt:message key="label.header.about"/> </a>
         <a href="controller?command=contactsPage"><fmt:message key="label.header.contacts"/></a>
+        <c:if test="${userRole eq 'MANAGER'}">
+        <a href="controller?command=gotoManagerPage"><fmt:message key="label.header.mypage"/></a>
+        </c:if>
+        <c:if test="${userRole eq 'CLIENT'}">
+            <a href="controller?command=gotorequest"><fmt:message key="label.header.mypage"/></a>
+        </c:if>
+        <c:if test="${userRole eq null}">
+            <a href="controller?command=authorization"><fmt:message key="label.header.mypage"/></a>
+        </c:if>
     </div>
 
     <div class="dropdown">

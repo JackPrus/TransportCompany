@@ -20,33 +20,29 @@
 
 <div class="left-pane">
     <c:if test="${userRole eq 'CLIENT'}">
-        <form name="userForm" method="post" action="controller?command=allOrdersForClient">
+        <form name="userForm" method="post" action="controller?command=allOrdersForClient" accept-charset="UTF-8">
             <input type="submit" value="<fmt:message key="label.left_pane.client.all_orders"/>"/>
+        </form>
+
+        <form name="userForm" method="post" action="controller?command=gotorequest" accept-charset="UTF-8">
+            <input type="submit" value="<fmt:message key="label.orderform.new_order"/>"/>
         </form>
 
     </c:if>
 
 
     <c:if test="${userRole eq 'MANAGER'}">
-        <form name="adminForm" method="post" action="controller?command=allRooms">
-            <input type="submit" value="<fmt:message key="label.left_pane.admin.all_rooms"/>"/>
+        <form name="adminForm" method="post" action="controller?command=goToNewClientPage">
+            <input type="submit" value="<fmt:message key="label.left_pane.manager.add_new_client"/>"/>
         </form>
-        <form name="adminForm" method="post" action="controller?command=allUsers">
-            <input type="submit" value="<fmt:message key="label.left_pane.admin.all_users"/>"/>
-        </form>
-        <form name="adminForm" method="post" action="controller?command=allApplications">
-            <input type="submit" value="<fmt:message key="label.left_pane.admin.all_applications"/>"/>
+        <form name="adminForm" method="post" action="controller?command=allClients">
+            <input type="submit" value="<fmt:message key="label.left_pane.manager.my_clients"/>"/>
         </form>
 
-        <form name="adminForm" method="post" action="controller?command=allInvoices">
-            <input type="submit" value="<fmt:message key="label.left_pane.admin.all_invoices"/>"/>
+        <form name="adminForm" method="post" action="controller?command=allTrucks">
+            <input type="submit" value="<fmt:message key="label.left_pane.manager.my_trucks"/>"/>
         </form>
 
-        <form name="adminForm" method="post" action="controller?command=inProgressApplication">
-            <input type="submit" value="<fmt:message key="label.left_pane.admin.in_process_applications"/>"/>
-        </form>
-        <form name="adminForm" method="post" action="controller?command=addRoomPage">
-            <input type="submit" value="<fmt:message key="label.left_pane.admin.add_room"/>"/>
         </form>
 
 

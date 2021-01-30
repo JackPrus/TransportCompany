@@ -138,27 +138,19 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
 
     public List<Client> readAll () throws PersistentException{
         String sql = "SELECT * FROM client ORDER BY name, type_id";
-        String sqlForOrders = "SELECT * FROM sdek.order WHERE client_id =(?)";
 
         ResultSet resultSet = null;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             resultSet = statement.executeQuery();
             List<Client> clientList = new ArrayList<>();
             Client client = null;
-            //name, `data`, `type_id`
             while (resultSet.next()){
                 client = new Client();
-
-                List<Order> orderList = new ArrayList<>();
-                fillOrderListWithID(sqlForOrders, client.getIdentity(), orderList);
-
                 client.setIdentity(resultSet.getInt("id"));
                 client.setName(resultSet.getString("name"));
                 client.setData(resultSet.getString("data"));
                 client.setClientType(ClientType.getByIdentity(resultSet.getInt("type_id")));
-                client.setOrderList(orderList);
                 clientList.add(client);
-
             }
             return clientList;
 

@@ -22,6 +22,8 @@ public class Order extends Entity {
 
     public Order (){}
 
+
+
     public String getPickupAdress() { return pickupAdress; }
     public City getCityPickUp() { return cityPickUp; }
     public void setCityPickUp(City cityPickUp) { this.cityPickUp = cityPickUp; }
