@@ -65,14 +65,6 @@
                     <input type="hidden" name="price" value="${price}"/><br>
 
 
-<%--                    <jsp:useBean id="rfq" scope="request" class="by.prus.finalproject.bean.RequestForQuotation" />--%>
-<%--                    <jsp:setProperty name="rfq" property="length" value= "${param.length}" />--%>
-<%--                    <jsp:setProperty name="rfq" property="width" value= "${param.width}" />--%>
-<%--                    <jsp:setProperty name="rfq" property="height" value= "${param.height}" />--%>
-<%--                    <jsp:setProperty name="rfq" property="weight" value= "${param.weight}" />--%>
-<%--                    <jsp:setProperty name="rfq" property="city1" value= "${param.city1}" />--%>
-<%--                    <jsp:setProperty name="rfq" property="city2" value= "${param.city2}" />--%>
-<%--                    <jsp:setProperty name="rfq" property="price" value= "${param.price}" />--%>
 
             </form>
 

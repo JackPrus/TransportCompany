@@ -33,6 +33,10 @@
     <div class="main">
         <div class="form">
 
+            <h3>
+                <fmt:message key="label.done.title"/> <br>
+            </h3>
+
             <c:if test="${userRole eq 'CLIENT'}">
 
             <form name="requestForm" method="post" action="controller?command=gotorequest">
@@ -45,7 +49,7 @@
 
             <c:if test="${userRole eq 'MANAGER'}">
 
-                <form name="requestForm" method="post" action="managerPage.jsp">
+                <form name="requestForm" method="post" action="controller?command=gotoManagerPage">
                     <h3><fmt:message key="label.managerform.gotomanagerpahe"/> <br>
                         <p>
                             <input type="submit" value="<fmt:message key="label.managerform.gotomanagerpahe"/>"/>

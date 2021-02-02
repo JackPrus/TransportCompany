@@ -42,13 +42,19 @@
                 </tr>
 
                 <c:forEach items="${allClients}" var="client">
-                    <tr>
-                        <td>${client.identity}</td>
-                        <td>${client.name}</td>
-                        <td>${client.data}</td>
-                        <td>${client.clientType}</td>
-                    </tr>
-
+                    <form name="requestForm" method="post" action="controller?command=gotoEditClient">
+                        <tr>
+                            <td>${client.identity}</td>
+                            <td>${client.name}</td>
+                            <td>${client.data}</td>
+                            <td>${client.clientType}</td>
+                            <td><input type="submit"  value="<fmt:message key="label.button.change"/>"/></td>
+                        </tr>
+                        <input type="hidden" name="clientId" value="${client.identity}"/>
+                        <input type="hidden" name="clientName" value="${client.name}"/>
+                        <input type="hidden" name="clientData" value="${client.data}"/>
+                        <input type="hidden" name="clientClientType" value="${client.clientType}"/>
+                    </form>
                 </c:forEach>
 
             </table>

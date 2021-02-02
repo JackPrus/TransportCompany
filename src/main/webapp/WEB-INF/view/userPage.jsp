@@ -31,6 +31,7 @@
     </div>
     <div class="main">
         <div class="form">
+
             <form name="bookingForm" method="post" action="controller?command=request" accept-charset="UTF-8">
 <%--                сделать команду request--%>
                 <h2><fmt:message key="label.requestform.text"/></h2>

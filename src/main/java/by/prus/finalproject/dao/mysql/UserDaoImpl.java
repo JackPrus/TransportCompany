@@ -35,8 +35,15 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             statement.setString(2, user.getPassword());
             statement.setString(3,user.getEmail());
             statement.setString(4, user.getRole().getRoleName());
-            statement.setInt(5, user.getClientId());
-            statement.setInt(6, user.getManagerId());
+
+            // in case our user is client
+            if (user.getClientId()==0){ statement.setNull(5, java.sql.Types.INTEGER);
+            }else{ statement.setInt(5, user.getClientId()); }
+            // in case our user is manager
+            if (user.getManagerId()==0){ statement.setNull(6, java.sql.Types.INTEGER);
+            }else{ statement.setInt(6, user.getManagerId()); }
+
+
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             if(resultSet.next()) {
@@ -225,4 +232,27 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             } catch(SQLException e) {}
         }
     }
+
+    @Override
+    public void deleteByClientId(Integer identity) throws PersistentException {
+
+        String sql = "DELETE FROM `user` WHERE `client_id` = ?";
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, identity);
+            statement.executeUpdate();
+        } catch(SQLException e) {
+            logger.error("Somethind going wrong doing delete position {} in 'user' table"+identity);
+            throw new PersistentException(e);
+        } finally {
+            try {
+                if (statement!=null){
+                    statement.close();
+                }
+            } catch(SQLException e) {}
+        }
+
+    }
+
 }

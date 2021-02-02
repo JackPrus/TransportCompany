@@ -39,6 +39,10 @@
             <input type="submit" value="<fmt:message key="label.left_pane.manager.my_clients"/>"/>
         </form>
 
+        <form name="adminForm" method="post" action="controller?command=goToNewTruckPage">
+            <input type="submit" value="<fmt:message key="label.left_pane.manager.add_new_truck"/>"/>
+        </form>
+
         <form name="adminForm" method="post" action="controller?command=allTrucks">
             <input type="submit" value="<fmt:message key="label.left_pane.manager.my_trucks"/>"/>
         </form>

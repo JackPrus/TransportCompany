@@ -31,7 +31,9 @@
     </div>
     <div class="main">
         <div class="form">
+
             <form name="bookingForm" method="post" action="controller?command=ordersOfManager">
+
                 <%--                сделать команду request--%>
                 <h2><fmt:message key="label.managerform.orders"/></h2>
 

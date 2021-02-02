@@ -174,4 +174,50 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
             } catch(SQLException e) {}
         }
     }
+
+    public List<Truck> readAllTrucks() throws PersistentException {
+        String sql = "SELECT * FROM truck";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Truck> truckList = new ArrayList<>();
+        try {
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+            Truck truck = null;
+            while (resultSet.next()){
+                truck = new Truck();
+
+                Manager manager = new Manager();
+                manager.setIdentity(resultSet.getInt("manager_id"));
+
+                truck.setIdentity(resultSet.getInt("id"));
+                truck.setTruckNo(resultSet.getString("truck_no"));
+                truck.setLengthCapacity(resultSet.getInt("length_capasity(cm)"));
+                truck.setWidthCapacity(resultSet.getInt("width_capasity(cm)"));
+                truck.setHeightCapacity(resultSet.getInt("height_capasity(cm)"));
+                truck.setWeighCapacity(resultSet.getInt("weight_capasity(kg)"));
+                truck.setBusy(resultSet.getBoolean("isbusy"));
+                truck.setManager(manager);
+
+                truckList.add(truck);
+
+            }
+            return truckList;
+
+        } catch(SQLException e) {
+            logger.error("SQL exception trying to read from `truck`");
+            throw new PersistentException(e);
+        } finally {
+            try {
+                if (resultSet!=null){
+                    resultSet.close();
+                }
+            } catch(SQLException e) {}
+            try {
+                if (statement!=null){
+                    statement.close();
+                }
+            } catch(SQLException e) {}
+        }
+    }
 }

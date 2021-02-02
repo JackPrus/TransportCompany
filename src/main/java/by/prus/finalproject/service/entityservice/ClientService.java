@@ -9,7 +9,6 @@ import by.prus.finalproject.dao.mysql.DaoHelperFactory;
 import by.prus.finalproject.exception.PersistentException;
 import by.prus.finalproject.exception.ServiceException;
 
-import java.rmi.server.ServerCloneException;
 import java.util.List;
 
 public class ClientService {
@@ -54,6 +53,28 @@ public class ClientService {
         try(DaoHelper daoHelper = daoHelperFactory.create()){
             ClientDao dao = daoHelper.createClientDao();
             return dao.readAll();
+        }
+        catch (PersistentException e){
+            throw new ServiceException(e);
+        }
+    }
+
+    public void updateClient (Client client) throws ServiceException {
+        try(DaoHelper daoHelper = daoHelperFactory.create()){
+            ClientDao dao = daoHelper.createClientDao();
+            dao.update(client);
+        }
+        catch (PersistentException e){
+            throw new ServiceException(e);
+        }
+    }
+
+    public void deleteClient (Client client) throws ServiceException {
+        try(DaoHelper daoHelper = daoHelperFactory.create()){
+            UserDao userDao = daoHelper.createUserDao();
+            ClientDao clientDao = daoHelper.createClientDao();
+            userDao.deleteByClientId(client.getIdentity());
+            clientDao.delete(client.getIdentity());
         }
         catch (PersistentException e){
             throw new ServiceException(e);
