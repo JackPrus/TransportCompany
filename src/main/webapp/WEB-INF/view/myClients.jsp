@@ -58,7 +58,6 @@
                 </c:forEach>
 
             </table>
-
             ${errorMessage}
         </div>
     </div>

@@ -13,5 +13,6 @@ public interface TruckDao extends Dao<Truck> {
     Truck readNotBusy (Boolean isBusy);
 
     List<Truck> readAllTrucks() throws PersistentException;
+    List<Truck> readByManagerId(int managerId) throws PersistentException;
 
 }

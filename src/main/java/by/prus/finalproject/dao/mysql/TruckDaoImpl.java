@@ -49,7 +49,7 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
             statement.setInt(2, truck.getLengthCapacity());
             statement.setInt(3,truck.getWidthCapacity());
             statement.setInt(4,truck.getHeightCapacity());
-            statement.setInt(5,truck.getWeighCapacity());
+            statement.setInt(5,truck.getWeightCapacity());
             statement.setBoolean(6, truck.isBusy());
             statement.setInt(7,truck.getManager().getIdentity());
             statement.executeUpdate();
@@ -100,7 +100,7 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
                 truck.setLengthCapacity(resultSet.getInt("length_capasity(cm)"));
                 truck.setWidthCapacity(resultSet.getInt("width_capasity(cm)"));
                 truck.setHeightCapacity(resultSet.getInt("height_capasity(cm)"));
-                truck.setWeighCapacity(resultSet.getInt("weight_capasity(kg)"));
+                truck.setWeightCapacity(resultSet.getInt("weight_capasity(kg)"));
                 truck.setBusy(resultSet.getBoolean("isbusy"));
                 truck.setManager(manager);
                 truck.setIdentity(identity);
@@ -137,7 +137,7 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
             statement.setInt(2, truck.getLengthCapacity());
             statement.setInt(3, truck.getWidthCapacity());
             statement.setInt(4,truck.getHeightCapacity());
-            statement.setInt(5,truck.getWeighCapacity());
+            statement.setInt(5,truck.getWeightCapacity());
             statement.setBoolean(6,truck.isBusy());
             statement.setInt(7,truck.getManager().getIdentity());
             statement.setInt(8,truck.getIdentity());
@@ -195,7 +195,7 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
                 truck.setLengthCapacity(resultSet.getInt("length_capasity(cm)"));
                 truck.setWidthCapacity(resultSet.getInt("width_capasity(cm)"));
                 truck.setHeightCapacity(resultSet.getInt("height_capasity(cm)"));
-                truck.setWeighCapacity(resultSet.getInt("weight_capasity(kg)"));
+                truck.setWeightCapacity(resultSet.getInt("weight_capasity(kg)"));
                 truck.setBusy(resultSet.getBoolean("isbusy"));
                 truck.setManager(manager);
 
@@ -220,4 +220,52 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
             } catch(SQLException e) {}
         }
     }
+
+    public List<Truck> readByManagerId(int managerId) throws PersistentException {
+        String sql = "SELECT * FROM truck where manager_id = ?";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        List<Truck> truckList = new ArrayList<>();
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1,managerId);
+            resultSet = statement.executeQuery();
+            Truck truck = null;
+            while (resultSet.next()){
+                truck = new Truck();
+
+                Manager manager = new Manager();
+                manager.setIdentity(managerId);
+
+                truck.setIdentity(resultSet.getInt("id"));
+                truck.setTruckNo(resultSet.getString("truck_no"));
+                truck.setLengthCapacity(resultSet.getInt("length_capasity(cm)"));
+                truck.setWidthCapacity(resultSet.getInt("width_capasity(cm)"));
+                truck.setHeightCapacity(resultSet.getInt("height_capasity(cm)"));
+                truck.setWeightCapacity(resultSet.getInt("weight_capasity(kg)"));
+                truck.setBusy(resultSet.getBoolean("isbusy"));
+                truck.setManager(manager);
+
+                truckList.add(truck);
+
+            }
+            return truckList;
+
+        } catch(SQLException e) {
+            logger.error("SQL exception trying to read from `truck`");
+            throw new PersistentException(e);
+        } finally {
+            try {
+                if (resultSet!=null){
+                    resultSet.close();
+                }
+            } catch(SQLException e) {}
+            try {
+                if (statement!=null){
+                    statement.close();
+                }
+            } catch(SQLException e) {}
+        }
+    }
+
 }

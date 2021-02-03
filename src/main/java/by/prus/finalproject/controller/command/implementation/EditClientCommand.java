@@ -44,7 +44,7 @@ public class EditClientCommand implements Command {
             String data = request.getParameter(DATA);
             int type = Integer.parseInt(request.getParameter(TYPE));
 
-            if (name==null || type==0) {
+            if (name==null || name.equals("") || type<=0) {
                 request.setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_WRONG_DATA);
                 return CommandResult.forward(EDIT_CLIENT_PAGE);
             }
@@ -55,7 +55,10 @@ public class EditClientCommand implements Command {
             client.setData(data);
             client.setClientType(ClientType.getByIdentity(type));
 
-        }catch (ClassCastException e){
+        }catch (NumberFormatException e){
+            request.setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_WRONG_DATA);
+            return CommandResult.forward(EDIT_CLIENT_PAGE);
+        } catch (ClassCastException e){
             throw new ServiceException(e);
         }
 

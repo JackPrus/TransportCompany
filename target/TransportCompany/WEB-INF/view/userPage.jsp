@@ -164,7 +164,9 @@
                     <input type="submit" value="<fmt:message key="label.request_form.button"/>"/>
                 </p>
             </form>
-            ${errorMessage}
+            <c:if test="${errorMessage eq 'wrong_data'}">
+                <fmt:message key="label.error.truck.wrong_data"/>
+            </c:if>
         </div>
     </div>
 </div>

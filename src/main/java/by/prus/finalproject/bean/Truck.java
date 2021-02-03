@@ -9,7 +9,7 @@ public class Truck extends Entity {
     private int lengthCapacity;  //2cm
     private int widthCapacity; //3cm
     private int heightCapacity; //4cm
-    private int weighCapacity; //5kg
+    private int weightCapacity; //5kg
     private boolean isBusy; //6
     private Manager manager; //7
     private List<Order>orderList = new ArrayList<>();
@@ -19,7 +19,7 @@ public class Truck extends Entity {
         this.lengthCapacity = lengthCapacity;
         this.widthCapacity = widthCapacity;
         this.heightCapacity = heightCapacity;
-        this.weighCapacity = weighCapacity;
+        this.weightCapacity = weighCapacity;
         this.isBusy=isBusy;
     }
     public Truck(){}
@@ -32,8 +32,8 @@ public class Truck extends Entity {
     public void setWidthCapacity(int widthCapacity) { this.widthCapacity = widthCapacity; }
     public int getHeightCapacity() { return heightCapacity; }
     public void setHeightCapacity(int heightCapacity) { this.heightCapacity = heightCapacity; }
-    public int getWeighCapacity() { return weighCapacity; }
-    public void setWeighCapacity(int weighCapacity) { this.weighCapacity = weighCapacity; }
+    public int getWeightCapacity() { return weightCapacity; }
+    public void setWeightCapacity(int weighCapacity) { this.weightCapacity = weighCapacity; }
     public Manager getManager() { return manager; }
     public void setManager(Manager manager) { this.manager = manager; }
     public boolean isBusy() { return isBusy; }

@@ -41,23 +41,23 @@
                 </label>
                 </h3>
 
-                <h3><label for="length"><fmt:message key="label.truck.length" /> <br>
-                    <input type="number" id= "length" name="length" value="${param.lengthCapacity}" min="1" max="1360"/>
+                <h3><label for="lengthCapacity"><fmt:message key="label.truck.length" /> <br>
+                    <input type="number" id= "lengthCapacity" name="lengthCapacity" value="${param.lengthCapacity}" min="1" max="1360"/>
                 </label>
                 </h3>
 
-                    <h3><label for="width"><fmt:message key="label.truck.width" /> <br>
-                        <input type="number" id= "width" name="width" value="${param.widthCapacity}" min="1" max="250"/>
+                    <h3><label for="widthCapacity"><fmt:message key="label.truck.width" /> <br>
+                        <input type="number" id= "widthCapacity" name="widthCapacity" value="${param.widthCapacity}" min="1" max="250"/>
                     </label>
                     </h3>
 
-                    <h3><label for="height"><fmt:message key="label.truck.height" /> <br>
-                        <input type="number" id= "height" name="height" value="${param.heightCapacity}" min="1" max="280"/>
+                    <h3><label for="heightCapacity"><fmt:message key="label.truck.height" /> <br>
+                        <input type="number" id= "heightCapacity" name="heightCapacity" value="${param.heightCapacity}" min="1" max="280"/>
                     </label>
                     </h3>
 
-                    <h3><label for="weight"><fmt:message key="label.truck.weight" /> <br>
-                        <input type="number" id= "weight" name="weight" value="${param.weighCapacity}" min="1" max="23500"/>
+                    <h3><label for="weightCapacity"><fmt:message key="label.truck.weight" /> <br>
+                        <input type="number" id= "weightCapacity" name="weightCapacity" value="${param.weightCapacity}" min="1" max="23500"/>
                     </label>
                     </h3>
 
@@ -65,6 +65,10 @@
                     <input type="submit" value="<fmt:message key="label.button.add"/>"/>
                 </p>
             </form>
+
+            <c:if test="${errorMessage eq 'wrong_data'}">
+                <fmt:message key="label.error.truck.wrong_data"/>
+            </c:if>
 
         </div>
     </div>

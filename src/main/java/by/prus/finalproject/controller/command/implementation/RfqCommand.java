@@ -26,6 +26,10 @@ public class RfqCommand implements Command {
     private final String WEIGHT = "weight";
     private final String CLIENT_ID = "client_id";
 
+    private final String ERROR_MESSAGE_PARAM = "errorMessage";
+    private final String ERROR_MESSAGE_WRONG_DATA = "wrong_info";
+    private static final String USER_PAGE = "WEB-INF/view/userPage.jsp";
+
     private static final String PAGE_WITH_PRICE = "WEB-INF/view/withPrice.jsp";
 
 
@@ -63,6 +67,9 @@ public class RfqCommand implements Command {
 
         }catch (ClassCastException e){
             throw new ServiceException("Parsing error",e);
+        }catch (NumberFormatException e){
+            request.setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_WRONG_DATA);
+            return CommandResult.forward(USER_PAGE);
         }
 
         return CommandResult.forward(PAGE_WITH_PRICE);

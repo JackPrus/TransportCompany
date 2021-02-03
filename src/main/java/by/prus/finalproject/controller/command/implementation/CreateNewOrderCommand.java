@@ -32,7 +32,11 @@ public class CreateNewOrderCommand implements Command {
     private final String DELIVERY_ADDRESS = "adressDelivery";
     private final String PRICE = "price";
 
-    private static final String ORDER_DONE_PAGE = "WEB-INF/view/orderdone.jsp";
+    private final String ERROR_MESSAGE_PARAM = "errorMessage";
+    private final String ERROR_MESSAGE_WRONG_DATA = "wrong_info";
+
+    private static final String ORDER_DONE_PAGE = "WEB-INF/view/done.jsp";
+    private static final String USER_PAGE = "WEB-INF/view/userPage.jsp";
 
     public CreateNewOrderCommand(OrderService orderService) {
         this.orderService = orderService;
@@ -80,6 +84,9 @@ public class CreateNewOrderCommand implements Command {
 
         }catch (ClassCastException e){
             throw new ServiceException("Parsing error",e);
+        }catch (NumberFormatException e){
+            request.setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_WRONG_DATA);
+            return CommandResult.forward(USER_PAGE);
         }
 
         return CommandResult.forward(ORDER_DONE_PAGE);

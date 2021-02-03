@@ -56,7 +56,6 @@ public class LoginCommand implements Command {
                 return CommandResult.forward(LOGIN_MANAGER_PAGE);
             } else {
                 session.setAttribute(CLIENT_ID, clientId);
-                request.setAttribute(CLIENT_ID, clientId); // удалить
                 request.setAttribute(CURRENT_PAGE, USER_PAGE);
                 return CommandResult.forward(USER_PAGE);
             }

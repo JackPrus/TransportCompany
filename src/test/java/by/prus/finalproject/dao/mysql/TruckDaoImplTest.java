@@ -58,7 +58,7 @@ public class TruckDaoImplTest {
         truck1.setLengthCapacity(1300);
         truck1.setWidthCapacity(245);
         truck1.setHeightCapacity(275);
-        truck1.setWeighCapacity(22000);
+        truck1.setWeightCapacity(22000);
         truck1.setBusy(false);
         truck1.setManager(manager1);
 
@@ -79,7 +79,7 @@ public class TruckDaoImplTest {
         assertEquals(truck1.getLengthCapacity(), truck2.getLengthCapacity());
         assertEquals(truck1.getWidthCapacity(), truck2.getWidthCapacity());
         assertEquals(truck1.getHeightCapacity(), truck2.getHeightCapacity());
-        assertEquals(truck1.getWeighCapacity(), truck2.getWeighCapacity());
+        assertEquals(truck1.getWeightCapacity(), truck2.getWeightCapacity());
         assertEquals(truck1.isBusy(), truck2.isBusy());
         assertEquals(truck1.getManager().getIdentity(), truck2.getManager().getIdentity());
 
@@ -115,7 +115,7 @@ public class TruckDaoImplTest {
         truck3.setLengthCapacity(550);
         truck3.setWidthCapacity(220);
         truck3.setHeightCapacity(260);
-        truck3.setWeighCapacity(3500);
+        truck3.setWeightCapacity(3500);
         truck3.setBusy(false);
         truck3.setManager(manager4);
 
@@ -133,7 +133,7 @@ public class TruckDaoImplTest {
         assertEquals(updated.getLengthCapacity(), truck3.getLengthCapacity());
         assertEquals(updated.getWidthCapacity(), truck3.getWidthCapacity());
         assertEquals(updated.getHeightCapacity(), truck3.getHeightCapacity());
-        assertEquals(updated.getWeighCapacity(), truck3.getWeighCapacity());
+        assertEquals(updated.getWeightCapacity(), truck3.getWeightCapacity());
         assertEquals(updated.isBusy(), truck3.isBusy());
         assertEquals(updated.getManager().getIdentity(), truck3.getManager().getIdentity());
 
