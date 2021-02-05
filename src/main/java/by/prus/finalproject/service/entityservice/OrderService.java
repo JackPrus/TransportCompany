@@ -3,6 +3,7 @@ package by.prus.finalproject.service.entityservice;
 import by.prus.finalproject.bean.Client;
 import by.prus.finalproject.bean.Manager;
 import by.prus.finalproject.bean.Order;
+import by.prus.finalproject.bean.Truck;
 import by.prus.finalproject.dao.OrderDao;
 import by.prus.finalproject.dao.mysql.DaoHelper;
 import by.prus.finalproject.dao.mysql.DaoHelperFactory;
@@ -54,4 +55,32 @@ public class OrderService {
             throw new ServiceException(e);
         }
     }
+
+    public Order readById (int identity) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()){
+            OrderDao dao = daoHelper.createOrderDao();
+            return dao.read(identity);
+        }catch (PersistentException e){
+            throw new ServiceException(e);
+        }
+    }
+
+    public void update(Order order) throws ServiceException {
+        try(DaoHelper daoHelper = daoHelperFactory.create()) {
+            OrderDao dao = daoHelper.createOrderDao();
+            dao.update(order);
+        } catch (PersistentException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public List<Order> getOrdersOfTruck(Truck truck) throws ServiceException {
+        try(DaoHelper daoHelper = daoHelperFactory.create()) {
+            OrderDao dao = daoHelper.createOrderDao();
+            return dao.getOrdersOfTruck(truck);
+        } catch (PersistentException e) {
+            throw new ServiceException(e);
+        }
+    }
+
 }

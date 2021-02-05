@@ -23,20 +23,6 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
         super(connection);
     }
 
-    @Override
-    public Truck readBytruckNo(String truckNo) {
-        return null;
-    }
-
-    @Override
-    public Truck readByOrder(Order order) {
-        return null;
-    }
-
-    @Override
-    public Truck readNotBusy(Boolean isBusy) {
-        return null;
-    }
 
     @Override
     public Integer create(Truck truck) throws PersistentException {

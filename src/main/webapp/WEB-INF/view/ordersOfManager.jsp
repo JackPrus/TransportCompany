@@ -50,6 +50,7 @@
                     <th><fmt:message key="label.ordertable.truck_id"/></th>
                     <th><fmt:message key="label.ordertable.manager_id"/></th>
                     <th><fmt:message key="label.ordertable.client_id"/></th>
+                    <th><fmt:message key="label.button.close"/></th>
                 </tr>
 
                 <c:forEach items="${ordersOfManager}" var="order">
@@ -67,9 +68,37 @@
                         <td>${order.orderDate}</td>
                         <td>${order.active}</td>
                         <td>${order.price}</td>
-                        <td>${order.truck.identity}</td>
+
+                        <form name="newTruckForm" method="post" action="controller?command=pointTruckPage">
+                        <c:choose>
+                            <c:when test="${order.truck.identity eq 0}">
+                                <input type="hidden" name="orderId" value="${order.identity}">
+                                <td><input type="submit"  value="<fmt:message key="label.button.point"/>"/></td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>${order.truck.identity}</td>
+                            </c:otherwise>
+                        </c:choose>
+                        </form>
+
                         <td>${order.manager.identity}</td>
                         <td>${order.client.identity}</td>
+
+                        <td>
+                            <c:choose>
+                            <c:when test="${order.active eq true}">
+                                <form name="newTruckForm" method="post" action="controller?command=markAsDelivered">
+                                <input type="hidden" name="orderId" value="${order.identity}">
+                                <input type="hidden" name="truckId" value="${order.truck.identity}">
+                                <input type="submit"  value="<fmt:message key="label.button.close"/>"/>
+                                </form>
+                            </c:when>
+                                    <c:otherwise>
+                                        <fmt:message key="label.orderform.delivered"/>
+                                    </c:otherwise>
+                            </c:choose>
+                        </td>
+
 
                     </tr>
 

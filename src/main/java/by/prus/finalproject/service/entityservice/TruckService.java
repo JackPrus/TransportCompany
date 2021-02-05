@@ -33,6 +33,33 @@ public class TruckService {
         }
     }
 
+    public void updateTruck (Truck truck) throws ServiceException{
+        try(DaoHelper daoHelper = daoHelperFactory.create()){
+            TruckDao dao = daoHelper.createTruckDao();
+            dao.update(truck);
+        }catch (PersistentException e){
+            throw new ServiceException(e);
+        }
+    }
+
+    public void deleteTruck (int identity) throws ServiceException{
+        try(DaoHelper daoHelper = daoHelperFactory.create()){
+            TruckDao dao = daoHelper.createTruckDao();
+            dao.delete(identity);
+        }catch (PersistentException e){
+            throw new ServiceException(e);
+        }
+    }
+
+    public Truck read (int identity) throws ServiceException{
+        try(DaoHelper daoHelper = daoHelperFactory.create()){
+            TruckDao dao = daoHelper.createTruckDao();
+            return dao.read(identity);
+        }catch (PersistentException e){
+            throw new ServiceException(e);
+        }
+    }
+
 
     public boolean isCorrectData (String truckNo, int length, int width, int height, int weight) {
 

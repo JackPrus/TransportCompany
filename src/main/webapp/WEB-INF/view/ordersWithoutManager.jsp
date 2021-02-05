@@ -50,28 +50,36 @@
                     <th><fmt:message key="label.ordertable.truck_id"/></th>
                     <th><fmt:message key="label.ordertable.manager_id"/></th>
                     <th><fmt:message key="label.ordertable.client_id"/></th>
+                    <th><fmt:message key="label.button.take"/></th>
                 </tr>
 
                 <c:forEach items="${ordersWithoutManager}" var="order">
-                    <tr>
 
-                        <td>${order.identity}</td>
-                        <td>${order.pickupAdress}</td>
-                        <td>${order.cityPickUp}</td>
-                        <td>${order.cityDelivery}</td>
-                        <td>${order.unloadingAdress}</td>
-                        <td>${order.length}</td>
-                        <td>${order.width}</td>
-                        <td>${order.height}</td>
-                        <td>${order.weight}</td>
-                        <td>${order.orderDate}</td>
-                        <td>${order.active}</td>
-                        <td>${order.price}</td>
-                        <td>${order.truck.identity}</td>
-                        <td>${order.manager.identity}</td>
-                        <td>${order.client.identity}</td>
+                        <tr>
+                            <td>${order.identity}</td>
+                            <td>${order.pickupAdress}</td>
+                            <td>${order.cityPickUp}</td>
+                            <td>${order.cityDelivery}</td>
+                            <td>${order.unloadingAdress}</td>
+                            <td>${order.length}</td>
+                            <td>${order.width}</td>
+                            <td>${order.height}</td>
+                            <td>${order.weight}</td>
+                            <td>${order.orderDate}</td>
+                            <td>${order.active}</td>
+                            <td>${order.price}</td>
+                            <td>${order.truck.identity}</td>
+                            <td>${order.manager.identity}</td>
+                            <td>${order.client.identity}</td>
 
-                    </tr>
+                            <form name="requestForm" method="post" action="controller?command=takeOrder">
+                                <c:if test="${order.manager.identity eq 0}">
+                                    <td><input type="submit"  value="<fmt:message key="label.button.take"/>"/></td>
+                                </c:if>
+                                <input type="hidden" name="orderId" value="${order.identity}"/>
+                            </form>
+
+                            </tr>
 
                 </c:forEach>
 

@@ -39,6 +39,7 @@
                     <th><fmt:message key="label.myclients.name"/></th>
                     <th><fmt:message key="label.myclients.data"/></th>
                     <th><fmt:message key="label.myclients.type"/></th>
+                    <th><fmt:message key="label.edit_cleint.title"/></th>
                 </tr>
 
                 <c:forEach items="${allClients}" var="client">

@@ -8,11 +8,7 @@ import java.util.List;
 
 public interface TruckDao extends Dao<Truck> {
 
-    Truck readBytruckNo (String truckNo);
-    Truck readByOrder (Order order);
-    Truck readNotBusy (Boolean isBusy);
-
-    List<Truck> readAllTrucks() throws PersistentException;
+    Truck read(Integer identity) throws PersistentException;
     List<Truck> readByManagerId(int managerId) throws PersistentException;
 
 }

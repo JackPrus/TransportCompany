@@ -47,8 +47,8 @@
                 </tr>
 
                 <c:forEach items="${allTrucks}" var="truck">
-                    <form name="requestForm" method="post" action="controller?command=gotoEditTruck">
                         <tr>
+                            <form name="requestForm" method="post" action="controller?command=gotoEditTruck">
                             <td>${truck.identity}</td>
                             <td>${truck.truckNo}</td>
                             <td>${truck.lengthCapacity}</td>
@@ -58,16 +58,26 @@
                             <td>${truck.busy}</td>
                             <td>${truck.manager.identity}</td>
                             <td><input type="submit"  value="<fmt:message key="label.button.change"/>"/></td>
-                        </tr>
-                        <input type="hidden" name="clientId" value="${truck.identity}"/>
-                        <input type="hidden" name="clientName" value="${truck.truckNo}"/>
-                        <input type="hidden" name="clientData" value="${truck.lengthCapacity}"/>
-                        <input type="hidden" name="clientData" value="${truck.widthCapacity}"/>
-                        <input type="hidden" name="clientData" value="${truck.heightCapacity}"/>
-                        <input type="hidden" name="clientData" value="${truck.weightCapacity}"/>
-                        <input type="hidden" name="clientData" value="${truck.busy}"/>
-                        <input type="hidden" name="clientData" value="${truck.manager.identity}"/>
-                    </form>
+
+                        <input type="hidden" name="truckId" value="${truck.identity}"/>
+                        <input type="hidden" name="truckNo" value="${truck.truckNo}"/>
+                        <input type="hidden" name="lengthCapacity" value="${truck.lengthCapacity}"/>
+                        <input type="hidden" name="widthCapacity" value="${truck.widthCapacity}"/>
+                        <input type="hidden" name="heightCapacity" value="${truck.heightCapacity}"/>
+                        <input type="hidden" name="weightCapacity" value="${truck.weightCapacity}"/>
+                        <input type="hidden" name="busy" value="${truck.busy}"/>
+                        <input type="hidden" name="managerId" value="${truck.manager.identity}"/>
+                        </form>
+
+                            <c:if test="${not empty param.orderId}">
+                            <form name="pointTruck" method="post" action="controller?command=pointTruck">
+                                <input type="hidden" name="orderId" value="${param.orderId}">
+                                <input type="hidden" name="truckId" value="${truck.identity}">
+                                <td><input type="submit"  value="<fmt:message key="label.button.point"/>"/></td>
+                            </c:if>
+
+                    </tr>
+
                 </c:forEach>
 
             </table>

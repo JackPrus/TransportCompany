@@ -1,6 +1,7 @@
 package by.prus.finalproject.controller.command;
 
 
+import by.prus.finalproject.bean.Truck;
 import by.prus.finalproject.controller.command.implementation.*;
 import by.prus.finalproject.dao.mysql.DaoHelperFactory;
 import by.prus.finalproject.service.entityservice.ClientService;
@@ -28,6 +29,15 @@ public class CommandFactory {
     private static final String GO_TO_NEW_TRUCK_PAGE = "goToNewTruckPage";
     private static final String NEW_TRUCK = "newTruck";
     private static final String TRUCKS_OF_MANAGER = "truckOfManager";
+    private static final String EDIT_TRUCK = "editTruck";  //editTruck
+    private static final String DELETE_TRUCK = "deleteTruck";
+    private static final String GO_TO_EDIT_TRUCK = "gotoEditTruck";
+    private static final String TAKE_ORDER = "takeOrder";
+    private static final String POINT_TRUCK_PAGE = "pointTruckPage";
+    private static final String POINT_TRUCK = "pointTruck";
+    private static final String DELIVERED = "markAsDelivered";
+
+    //deleteTruck
 
     private static final String CONTACTS_PAGE = "contactsPage";
     private static final String ABOUT_US_PAGE = "aboutUsPage";
@@ -67,6 +77,19 @@ public class CommandFactory {
                 return new NewTruckCommand(new TruckService(new DaoHelperFactory()));
             case TRUCKS_OF_MANAGER:
                 return new TruckOfManagerCommand(new TruckService(new DaoHelperFactory()));
+            case EDIT_TRUCK:
+                return new EditTruckCommand(new TruckService(new DaoHelperFactory()));
+            case DELETE_TRUCK:
+                return new DeleteTruckCommand(new TruckService(new DaoHelperFactory()));
+            case TAKE_ORDER:
+                return new TakeOrderCommand(new OrderService(new DaoHelperFactory()));
+            case POINT_TRUCK:
+                return new PointTruckForOrderCommand(new OrderService(new DaoHelperFactory()));
+            case POINT_TRUCK_PAGE:
+                return new TruckOfManagerCommand(new TruckService(new DaoHelperFactory()));
+            case DELIVERED:
+                return new DeliveredCommand(new OrderService(new DaoHelperFactory()), new TruckService(new DaoHelperFactory()));
+
 
             case GO_BACK_TO_REQUEST:
                 return new GoToPageCommand("WEB-INF/view/userPage.jsp");
@@ -86,6 +109,8 @@ public class CommandFactory {
                 return new GoToPageCommand("WEB-INF/view/editClient.jsp");
             case GO_TO_NEW_TRUCK_PAGE:
                 return new GoToPageCommand("WEB-INF/view/newTruck.jsp");
+            case GO_TO_EDIT_TRUCK:
+                return new GoToPageCommand("WEB-INF/view/editTruck.jsp");
             default:
                 throw new IllegalArgumentException("illegal argument"); // need login abd error page
         }

@@ -53,8 +53,8 @@
                 </tr>
 
             <c:forEach items="${allOrdersForClient}" var="order">
-                <tr>
 
+                <tr>
                     <td>${order.identity}</td>
                     <td>${order.pickupAdress}</td>
                     <td>${order.cityPickUp}</td>
@@ -70,8 +70,6 @@
                     <td>${order.truck.identity}</td>
                     <td>${order.manager.identity}</td>
                     <td>${order.client.identity}</td>
-
-                </tr>
 
                 </c:forEach>
 
