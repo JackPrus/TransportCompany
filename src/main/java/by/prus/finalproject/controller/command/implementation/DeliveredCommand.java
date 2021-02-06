@@ -22,10 +22,10 @@ public class DeliveredCommand implements Command {
     private final String TRUCK_ID = "truckId";
 
     private final String ERROR_MESSAGE_PARAM = "errorMessage";
-    private final String ERROR_MESSAGE_WRONG_DATA = "wrong_data";
+    private final String NO_TRUCKS_FOR_ORDER = "No_truck_for_order";
 
     private final String ORDERS_OF_MANAGER_PAGE = "WEB-INF/view/ordersOfManager.jsp";
-    private final String MY_TRUCK_PAGE = "WEB-INF/view/myTrucks.jsp";
+    private final String MY_ORDERS_PAGE = "WEB-INF/view/ordersOfManager.jsp";
 
     public DeliveredCommand(OrderService orderService, TruckService truckService) {
         this.orderService = orderService;
@@ -39,14 +39,19 @@ public class DeliveredCommand implements Command {
             int orderId = Integer.parseInt(request.getParameter(ORDER_ID));
             int truckId = Integer.parseInt(request.getParameter(TRUCK_ID));
 
-            Order order = orderService.readById(orderId);
-            order.setActive(false);
-            orderService.update(order);
+            if (truckId!=0){
+                Order order = orderService.readById(orderId);
+                order.setActive(false);
+                orderService.update(order);
+            }else{
+                request.setAttribute(ERROR_MESSAGE_PARAM, NO_TRUCKS_FOR_ORDER);
+                return CommandResult.forward(ORDERS_OF_MANAGER_PAGE);
+            }
 
             Truck truck = truckService.read(truckId);
-            List<Order> ordersOfTruck = orderService.getOrdersOfTruck(truck);
+            List<Order> currentOrdersOfTruck = orderService.getCurrentOrdersOfTruck(truck);
 
-            if (ordersOfTruck.size()==0){
+            if (currentOrdersOfTruck.size()==0){
                 truck.setBusy(false);
                 truckService.updateTruck(truck);
             }
@@ -54,8 +59,8 @@ public class DeliveredCommand implements Command {
         }catch (ClassCastException e){
             throw new ServiceException(e);
         }catch (NumberFormatException e){
-            request.setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_WRONG_DATA);
-            return CommandResult.forward(MY_TRUCK_PAGE);
+            request.setAttribute(ERROR_MESSAGE_PARAM, NO_TRUCKS_FOR_ORDER);
+            return CommandResult.forward(ORDERS_OF_MANAGER_PAGE);
         }
 
         OrdersOfManagerCommand ordersOfManager = new OrdersOfManagerCommand(orderService);

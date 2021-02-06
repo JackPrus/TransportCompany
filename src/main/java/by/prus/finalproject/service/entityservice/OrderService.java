@@ -83,4 +83,13 @@ public class OrderService {
         }
     }
 
+    public List<Order> getCurrentOrdersOfTruck(Truck truck) throws ServiceException {
+        try(DaoHelper daoHelper = daoHelperFactory.create()) {
+            OrderDao dao = daoHelper.createOrderDao();
+            return dao.getCurrentOrdersOfTruck(truck);
+        } catch (PersistentException e) {
+            throw new ServiceException(e);
+        }
+    }
+
 }

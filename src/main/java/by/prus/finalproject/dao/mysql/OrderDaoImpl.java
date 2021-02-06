@@ -5,6 +5,7 @@ import by.prus.finalproject.bean.Driver;
 import by.prus.finalproject.dao.DriverDao;
 import by.prus.finalproject.dao.OrderDao;
 import by.prus.finalproject.exception.PersistentException;
+import by.prus.finalproject.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -214,7 +215,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
     }
 
     public List<Order> getOrdersByClient (Client client) throws PersistentException {
-        String sql = "SELECT * FROM `order` WHERE client_id = (?) ORDER BY isactive, date";
+        String sql = "SELECT * FROM `order` WHERE client_id = (?) ORDER BY isactive, date DESC ";
 
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, client.getIdentity());
@@ -262,7 +263,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
     }
 
     public List<Order> getOrdersOfManager (Manager manager) throws PersistentException{
-        String sql = "SELECT * FROM `order` WHERE manager_id =(?) ORDER BY date";
+        String sql = "SELECT * FROM `order` WHERE manager_id =(?) ORDER BY date and isactive DESC";
 
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, manager.getIdentity());
@@ -353,6 +354,50 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     public List<Order> getOrdersOfTruck (Truck truck) throws PersistentException{
         String sql = "SELECT * FROM `order` WHERE truck_id =(?) ORDER BY date";
+
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, truck.getIdentity());
+            ResultSet resultSet = statement.executeQuery();
+            List<Order> orderList = new ArrayList<>();
+
+            while (resultSet.next()){
+
+                Order order = new Order();
+                Manager manager = new Manager();
+                Client client = new Client();
+
+                //truck.setIdentity(resultSet.getInt("truck_id"));
+                manager.setIdentity(resultSet.getInt("manager_id"));
+                client.setIdentity(resultSet.getInt("client_id"));
+
+                order.setIdentity(resultSet.getInt("id"));
+                order.setPickupAdress(resultSet.getString("pickup adress"));
+                order.setCityPickUp(City.getCity(resultSet.getString("city_pickup")));
+                order.setCityDelivery(City.getCity(resultSet.getString("city_delivery")));
+                order.setUnloadingAdress(resultSet.getString("unloading adress"));
+                order.setLength(resultSet.getInt("length_cm"));
+                order.setWidth(resultSet.getInt("width_cm"));
+                order.setHeight(resultSet.getInt("height_cm"));
+                order.setWeight(resultSet.getDouble("weight_kg"));
+                order.setOrderDate(resultSet.getDate("date"));
+                order.setActive(resultSet.getBoolean("isactive"));
+                order.setPrice(resultSet.getBigDecimal("price"));
+                order.setTruck(truck);
+                order.setManager(manager);
+                order.setClient(client);
+
+                orderList.add(order);
+            }
+            return orderList;
+
+        } catch(SQLException e) {
+            logger.error("SQL exception trying to read from `order`");
+            throw new PersistentException(e);
+        }
+    }
+
+    public List<Order> getCurrentOrdersOfTruck(Truck truck) throws PersistentException{
+        String sql = "SELECT * FROM `order` WHERE truck_id =(?) and isactive =(true) ORDER BY date";
 
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, truck.getIdentity());

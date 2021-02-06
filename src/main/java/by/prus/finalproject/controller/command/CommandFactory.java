@@ -1,6 +1,7 @@
 package by.prus.finalproject.controller.command;
 
 
+import by.prus.finalproject.bean.Order;
 import by.prus.finalproject.bean.Truck;
 import by.prus.finalproject.controller.command.implementation.*;
 import by.prus.finalproject.dao.mysql.DaoHelperFactory;
@@ -36,6 +37,7 @@ public class CommandFactory {
     private static final String POINT_TRUCK_PAGE = "pointTruckPage";
     private static final String POINT_TRUCK = "pointTruck";
     private static final String DELIVERED = "markAsDelivered";
+    private static final String TRUCK_GO_TO_CARRIAGE = "truckGoToCarriage";
 
     //deleteTruck
 
@@ -89,6 +91,8 @@ public class CommandFactory {
                 return new TruckOfManagerCommand(new TruckService(new DaoHelperFactory()));
             case DELIVERED:
                 return new DeliveredCommand(new OrderService(new DaoHelperFactory()), new TruckService(new DaoHelperFactory()));
+            case TRUCK_GO_TO_CARRIAGE:
+                return new TruckToCarriageCommand(new TruckService(new DaoHelperFactory()), new OrderService(new DaoHelperFactory()));
 
 
             case GO_BACK_TO_REQUEST:

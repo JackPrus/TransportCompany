@@ -1,14 +1,13 @@
-package by.prus.finalproject.service.filter;
+package by.prus.finalproject.controller.filter;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 //@WebFilter(urlPatterns = "/*")
 public class SessionLocaleFilter implements Filter {
+
     private static final String LOCALIZATION = "localization";
     private static final String INIT_PARAMETER = "ru";
 
@@ -28,4 +27,5 @@ public class SessionLocaleFilter implements Filter {
 
     @Override
     public void destroy() { }
+
 }

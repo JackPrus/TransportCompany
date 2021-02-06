@@ -32,6 +32,10 @@
     <div class="main">
         <div class="form">
 
+            <c:if test="${errorMessage eq 'wrong_data'}">
+                <fmt:message key="label.error.truck.no_orders_for_truck"/>
+            </c:if>
+
             <table width="100%" border="4" cellpadding="4">
 
                 <tr>
@@ -48,15 +52,29 @@
 
                 <c:forEach items="${allTrucks}" var="truck">
                         <tr>
-                            <form name="requestForm" method="post" action="controller?command=gotoEditTruck">
                             <td>${truck.identity}</td>
                             <td>${truck.truckNo}</td>
                             <td>${truck.lengthCapacity}</td>
                             <td>${truck.widthCapacity}</td>
                             <td>${truck.heightCapacity}</td>
                             <td>${truck.weightCapacity}</td>
-                            <td>${truck.busy}</td>
+
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${truck.busy eq false}">
+                                        <form name="truckGoToCarriage" method="post" action="controller?command=truckGoToCarriage">
+                                            <input type="hidden" name="truckId" value="${truck.identity}">
+                                            <input type="submit"  value="<fmt:message key="label.button.go"/>"/>
+                                        </form>
+                                        </c:when>
+                                            <c:otherwise>
+                                                ${truck.busy}
+                                            </c:otherwise>
+                                    </c:choose>
+                                </td>
                             <td>${truck.manager.identity}</td>
+
+                            <form name="requestForm" method="post" action="controller?command=gotoEditTruck">
                             <td><input type="submit"  value="<fmt:message key="label.button.change"/>"/></td>
 
                         <input type="hidden" name="truckId" value="${truck.identity}"/>
@@ -65,6 +83,7 @@
                         <input type="hidden" name="widthCapacity" value="${truck.widthCapacity}"/>
                         <input type="hidden" name="heightCapacity" value="${truck.heightCapacity}"/>
                         <input type="hidden" name="weightCapacity" value="${truck.weightCapacity}"/>
+
                         <input type="hidden" name="busy" value="${truck.busy}"/>
                         <input type="hidden" name="managerId" value="${truck.manager.identity}"/>
                         </form>
@@ -81,7 +100,6 @@
                 </c:forEach>
 
             </table>
-            ${errorMessage}
         </div>
     </div>
 </div>

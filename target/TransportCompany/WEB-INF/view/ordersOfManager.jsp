@@ -32,6 +32,10 @@
     <div class="main">
         <div class="form">
 
+            <c:if test="${errorMessage eq 'No_truck_for_order'}">
+                <fmt:message key="label.error.truck.no_trucks_for_order"/>
+            </c:if>
+
             <table width="100%" border="4" cellpadding="4">
 
                 <tr>
@@ -105,8 +109,6 @@
                 </c:forEach>
 
             </table>
-
-            ${errorMessage}
         </div>
     </div>
 </div>

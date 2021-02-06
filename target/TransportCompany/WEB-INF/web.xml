@@ -21,7 +21,7 @@
 
   <filter>
     <filter-name>LocalizationFilter</filter-name>
-    <filter-class>by.prus.finalproject.service.filter.SessionLocaleFilter</filter-class>
+    <filter-class>by.prus.finalproject.controller.filter.SessionLocaleFilter</filter-class>
   </filter>
 
   <filter-mapping>
