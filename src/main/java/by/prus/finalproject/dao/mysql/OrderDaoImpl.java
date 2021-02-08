@@ -13,10 +13,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     private static final Logger logger = LogManager.getLogger(OrderDaoImpl.class);
+
+    private final String TOTAL_COUNT = "SELECT COUNT(sdek.order.id) AS orders FROM sdek.order";
 
     public OrderDaoImpl (Connection connection){super(connection);}
 
@@ -262,11 +265,13 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         }
     }
 
-    public List<Order> getOrdersOfManager (Manager manager) throws PersistentException{
-        String sql = "SELECT * FROM `order` WHERE manager_id =(?) ORDER BY date and isactive DESC";
+    public List<Order> getOrdersOfManager (Manager manager, int offset, int noOfRecords) throws PersistentException{
+        String sql = "SELECT * FROM `order` WHERE manager_id =(?) ORDER BY date and isactive DESC LIMIT ?,?";
 
         try(PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, manager.getIdentity());
+            statement.setInt(2, offset);
+            statement.setInt(3,noOfRecords);
             ResultSet resultSet = statement.executeQuery();
             List<Order> orderList = new ArrayList<>();
 
@@ -438,6 +443,12 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             logger.error("SQL exception trying to read from `order`");
             throw new PersistentException(e);
         }
+    }
+
+    @Override
+    public Integer findRowCount() throws PersistentException {
+        Optional<Integer> records = selectCountRecords(TOTAL_COUNT);
+        return records.orElse(0);
     }
 
 }

@@ -109,6 +109,25 @@
                 </c:forEach>
 
             </table>
+
+            <div class="pagination">
+
+                <c:if test="${requestScope.amountPages>3}">
+                    <a href="#">&laquo;</a>
+                </c:if>
+                <c:if test="${requestScope.amountPages > 1}">
+                    <a href="controller?command=${requestScope.command}&page=1">1</a>
+                    <a href="controller?command=${requestScope.command}&page=2">2</a>
+                </c:if>
+                <c:if test="${requestScope.amountPages > 2}">
+                    <a href="controller?command=${requestScope.command}&page=3">3</a>
+                </c:if>
+                <c:if test="${requestScope.amountPages > 3}">
+                    <a href="#">&raquo;</a>
+                </c:if>
+
+            </div>
+
         </div>
     </div>
 </div>

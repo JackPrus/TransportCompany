@@ -10,6 +10,7 @@ import by.prus.finalproject.dao.mysql.DaoHelperFactory;
 import by.prus.finalproject.exception.PersistentException;
 import by.prus.finalproject.exception.ServiceException;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class OrderService {
@@ -38,10 +39,10 @@ public class OrderService {
         }
     }
 
-    public List<Order>getOrdersOfManager (Manager manager) throws ServiceException {
+    public List<Order>getOrdersOfManager (Manager manager, int offset, int noOfRecords) throws ServiceException {
         try (DaoHelper daoHelper = daoHelperFactory.create()){
             OrderDao dao = daoHelper.createOrderDao();
-            return dao.getOrdersOfManager(manager);
+            return dao.getOrdersOfManager(manager, offset,noOfRecords);
         }catch (PersistentException e){
             throw new ServiceException(e);
         }
@@ -87,6 +88,19 @@ public class OrderService {
         try(DaoHelper daoHelper = daoHelperFactory.create()) {
             OrderDao dao = daoHelper.createOrderDao();
             return dao.getCurrentOrdersOfTruck(truck);
+        } catch (PersistentException e) {
+            throw new ServiceException(e);
+        }
+    }
+
+    public int findAmountPages(int itemsPerPage) throws ServiceException {
+        try (DaoHelper daoHelper = daoHelperFactory.create()) {
+            OrderDao dao = daoHelper.createOrderDao();
+            int totalOrders = dao.findRowCount();
+            if (totalOrders <= itemsPerPage) {
+                return 1;
+            }
+            return (int) Math.ceil(totalOrders / (double) itemsPerPage);
         } catch (PersistentException e) {
             throw new ServiceException(e);
         }

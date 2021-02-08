@@ -3,6 +3,7 @@ package by.prus.finalproject.dao.mysql;
 import by.prus.finalproject.bean.Order;
 import by.prus.finalproject.bean.Truck;
 import by.prus.finalproject.dao.pool.ConnectionPool;
+import by.prus.finalproject.exception.PersistentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class BaseDaoImpl {
 
@@ -58,6 +60,29 @@ public class BaseDaoImpl {
             statement.executeQuery();
         } catch (SQLException e) {
             logger.error("SQL exception trying to create `driver_has_order`");
+        }
+    }
+
+    public Optional<Integer>selectCountRecords(String sql)throws PersistentException{
+
+        ResultSet resultSet = null;
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            resultSet = preparedStatement.executeQuery();
+
+            Integer result = 0;
+
+                if (resultSet.next()) {
+                    result = resultSet.getInt(1);
+                }
+
+            return Optional.of(result);
+//                } else {
+//                    return Optional.empty();
+//                }
+        } catch (SQLException e) {
+            throw new PersistentException(e);
         }
     }
 
