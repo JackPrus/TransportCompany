@@ -11,6 +11,11 @@ import by.prus.finalproject.service.entityservice.OrderService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Manager see truck that can carry this good and he can point truck for order.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class PointTruckForOrderCommand implements Command {
 
     private OrderService orderService;

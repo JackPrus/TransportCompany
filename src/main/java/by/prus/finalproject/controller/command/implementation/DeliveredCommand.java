@@ -13,6 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * In case Manager just have know that some order has been delivered by truck
+ * he can mark this order as 'delivered' in CRM system.
+ * If truck don't have any current orders truck is mrked as free. (field truck.isBusy set 'false')
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class DeliveredCommand implements Command {
 
     private OrderService orderService;

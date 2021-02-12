@@ -9,6 +9,11 @@ import by.prus.finalproject.service.entityservice.TruckService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Command delete truck. Can invoke Manager only.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class DeleteTruckCommand implements Command {
 
     private TruckService truckService;

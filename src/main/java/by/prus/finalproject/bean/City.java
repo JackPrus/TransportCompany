@@ -1,5 +1,11 @@
 package by.prus.finalproject.bean;
 
+
+/**
+ * Enum describing all cities the company implements delivery to
+ *  * @autor Dzmitry Prus
+ *  * @version 1.0
+ */
 public enum City {
 
     BREST("Brest"), //1

@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Command set Localization
+ */
 public class LocalizationCommand implements Command {
     private static final String REFERER_HEADER = "Referer";
     private static final String LOCALIZATION = "localization";

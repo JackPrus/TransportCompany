@@ -2,6 +2,12 @@ package by.prus.finalproject.bean;
 
 import java.io.Serializable;
 
+/**
+ * Main Bean class. The parrent of all others class having just identity field and
+ * equals/hashcode methods that can be used by all others entities.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public abstract class Entity implements Serializable {
 
     private Integer identity;

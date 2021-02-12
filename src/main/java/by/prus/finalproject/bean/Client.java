@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Bean Class describing Client of Company. Success of user can be client or manager.
+ * Client can be represented by local office of company or some other company having this level success
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class Client extends Entity {
-
 
     private String name;
     private String data;

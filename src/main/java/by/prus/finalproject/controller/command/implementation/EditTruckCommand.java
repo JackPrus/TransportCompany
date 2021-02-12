@@ -11,7 +11,11 @@ import by.prus.finalproject.service.entityservice.TruckService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+/**
+ * Manager can edit any truck in case information about truck has been changed.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class EditTruckCommand implements Command {
 
     private TruckService truckService;

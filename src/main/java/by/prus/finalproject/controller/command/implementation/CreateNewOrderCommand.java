@@ -17,10 +17,27 @@ import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * Class create new Order. This command invoked by Client only.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class CreateNewOrderCommand implements Command {
 
     private final OrderService orderService;
 
+    /**
+     * CITY_PICKUP - city of loading
+     * CITY_DELIVERY - city where should be unloading
+     * LENGTH - length of cargo (cm)
+     * WIDTH - width of cargo (cm)
+     * HEIGHT - height of cargo (cm)
+     * WEIGHT - weight of cargo (cm)
+     * CLIENT_ID - id of current client sending this order
+     * PICKUP_ADDRESS - addres of pickup (not necessary)
+     * DELIVERY_ADDRESS - addres of delivery (not necessary)
+     * PRICE - price of order
+     */
     private final String CITY_PICKUP = "city1";
     private final String CITY_DELIVERY = "city2";
     private final String LENGTH = "length";

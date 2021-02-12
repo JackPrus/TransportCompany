@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * Command returns list of orders belongs to some exact Client.
+ * This opiton accessed for Client only.
+ */
 public class GetClientsOrdersCommand implements Command {
 
     private OrderService orderService;

@@ -15,7 +15,25 @@ import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.ParseException;
 
+/**
+ * Command count price of RFQ and forward client to page where he will see price
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class RfqCommand implements Command {
+
+    /**
+     * CITY_PICKUP - city of loading
+     * CITY_DELIVERY - city where should be unloading
+     * LENGTH - length of cargo (cm)
+     * WIDTH - width of cargo (cm)
+     * HEIGHT - height of cargo (cm)
+     * WEIGHT - weight of cargo (cm)
+     * CLIENT_ID - id of current client sending this order
+     * PICKUP_ADDRESS - addres of pickup (not necessary)
+     * DELIVERY_ADDRESS - addres of delivery (not necessary)
+     * PRICE - price of order
+     */
 
     private final RfqService rfqService;
     private final String CITY_PICKUP = "city1";

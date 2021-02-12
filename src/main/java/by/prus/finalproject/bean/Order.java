@@ -3,6 +3,13 @@ package by.prus.finalproject.bean;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * Bean class means transportation order placed by Client at the CRM platform (our application)
+ * Manager can take orders, point trucks for them.
+ * When the orders are delivered, manager point 'delivered'
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class Order extends Entity {
 
     private String pickupAdress;

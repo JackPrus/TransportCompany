@@ -1,5 +1,10 @@
 package by.prus.finalproject.bean;
 
+/**
+ * Each Client and Manager log in to CRM system are under User.
+ * In case role is MANAGER field clientId should be null.
+ * In case role is CLIENT field ManagerId should be null.
+ */
 public class User extends Entity {
 
     private String login;

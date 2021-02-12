@@ -13,6 +13,11 @@ import org.apache.catalina.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Manager can edit any client in case information about client has been changed.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class EditClientCommand implements Command {
 
     private ClientService clientService;

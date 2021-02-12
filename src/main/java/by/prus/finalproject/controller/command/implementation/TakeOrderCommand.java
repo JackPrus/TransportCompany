@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Comand when Manager accept order. And since this moment Manager is responsible for current order.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class TakeOrderCommand implements Command {
 
     private OrderService orderService;

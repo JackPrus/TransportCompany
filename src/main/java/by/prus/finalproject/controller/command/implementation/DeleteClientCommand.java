@@ -12,6 +12,11 @@ import by.prus.finalproject.service.entityservice.ClientService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Command delete client from list of company's client. Can invoke Manager only.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class DeleteClientCommand implements Command {
 
     private ClientService clientService;

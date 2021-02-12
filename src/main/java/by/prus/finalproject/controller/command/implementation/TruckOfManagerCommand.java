@@ -13,6 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * Command need to see all truck manager responsible for.
+ * He can rool these trucks he can add, update or delete truck of his list.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class TruckOfManagerCommand implements Command {
 
     private TruckService truckService;

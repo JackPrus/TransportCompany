@@ -14,6 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 
+/**
+ * @see Manager can add new truck to CRM.
+ * Truck has params:
+ * TRUCK_NO - reqistraion number of truck
+ * WIDTH_CAPACITY - possible internal loading width
+ * LENGTH_CAPACITY - possible internal loading length
+ * HEIGHT_CAPACITY - possible internal loading height
+ * WEIGHT_CAPACITY - possible internal loading weight
+ * MANAGER_ID - id of responsible manager
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class NewTruckCommand implements Command {
 
     private TruckService truckService;

@@ -3,6 +3,12 @@ package by.prus.finalproject.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Bean cluss represent truck of company. Each manager has som list of trucks he is responsible for.
+ * Truck can carry some cargoes (list of orders) or be free. We can see it in 'isBusy' status.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class Truck extends Entity {
 
     private String truckNo; //1

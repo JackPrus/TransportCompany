@@ -17,6 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Manager only can create new Client. CLient has name, data(phone no, for example),
+ * type (PERSON, COMPANY, OFFICE, Login, password, e-mail)
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class NewClientCommand implements Command {
 
     //loginservice need to check out if exists login and password
@@ -30,7 +36,6 @@ public class NewClientCommand implements Command {
     private final String PASSWORD = "password";
     private final String REPEAT_PASSWORD = "repeatpassword";
     private final String EMAIL = "email";
-    private final String MANAGER_ID = "manager_id";
 
     private final String ERROR_MESSAGE_PARAM = "errorMessage";
     private final String ERROR_MESSAGE_WRONG_DATA = "wrong_login";

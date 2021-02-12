@@ -1,5 +1,13 @@
 package by.prus.finalproject.bean;
 
+/**
+ * Client type means differense between Person (physicaly), Company (Legal Entity),
+ * and Office some other office of compaye can replace order for other office
+ * (for example if free trucks of current manager are missing, but was taken by manager
+ * he can send this order to other office)
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public enum ClientType {
 
     PERSON(1),

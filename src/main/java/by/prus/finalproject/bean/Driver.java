@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Bean clas means Driver of company
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class Driver extends Person {
 
     private Date medicalAprovement;

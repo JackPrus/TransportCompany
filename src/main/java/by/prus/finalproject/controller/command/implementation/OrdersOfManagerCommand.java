@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * Comand returns list of Orders belonds to current manager
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class OrdersOfManagerCommand implements Command {
 
     private OrderService orderService;

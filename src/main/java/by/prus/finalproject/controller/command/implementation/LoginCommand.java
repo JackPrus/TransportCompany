@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+/**
+ * Command validate user or client and set attribute session will use
+ */
 public class LoginCommand implements Command {
 
     private static final String USER_ID = "userId";

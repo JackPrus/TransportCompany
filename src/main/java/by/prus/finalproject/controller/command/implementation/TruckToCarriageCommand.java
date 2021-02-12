@@ -14,6 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Manager can send truck to carriage when decide that
+ * truck has already filled with orders
+ * Manager will see an error if try to send truck not having orders
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class TruckToCarriageCommand implements Command {
 
     private TruckService truckService;

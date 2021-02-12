@@ -8,6 +8,11 @@ import by.prus.finalproject.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class forward our user to contacts page
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class ContactsCommand implements Command {
 
     private String page = "WEB-INF/view/contacts.jsp";

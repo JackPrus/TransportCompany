@@ -4,6 +4,13 @@ import javax.servlet.RequestDispatcher;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * Request for Quotation of client that sends to
+ * @see by.prus.finalproject.service.quotation.RfqService
+ * and count price with regards to this RFQ
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class RequestForQuotation {
 
     //нет веса нет адресов , нет исактив, нет цены, нет трака, нет менеджера

@@ -6,6 +6,9 @@ import by.prus.finalproject.controller.command.CommandResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Simple command that forward user to some page
+ */
 public class GoToPageCommand implements Command {
 
     private final String page;

@@ -13,6 +13,11 @@ import javax.servlet.http.HttpSession;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.util.List;
 
+/**
+ * Class returns list of all company's clients
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class AllClietnsCommand implements Command {
 
     private ClientService clientService;

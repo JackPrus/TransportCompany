@@ -1,5 +1,15 @@
 package by.prus.finalproject.bean;
 
+/**
+ * There are 3 roles. Manager, Client, Driver.
+ * Client can create orders and send it to CRM.
+ * Manager can take orders, set truck for them, send truck to carriage and close order
+ * when it was delivered.
+ * Driver can see list of his orders he is responsible for.
+ * And can take them for carriage at warehouse.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public enum Role {
 
     MANAGER("MANAGER"),
