@@ -7,6 +7,11 @@ import by.prus.finalproject.exception.PersistentException;
 
 import java.sql.SQLException;
 
+/**
+ * Methods of current class return implementstion of DAO we need which
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class DaoHelper implements AutoCloseable {
 
     private final ProxyConnection connection;
@@ -21,9 +26,7 @@ public class DaoHelper implements AutoCloseable {
     public OrderDao createOrderDao(){return new OrderDaoImpl(connection);}
     public TruckDao createTruckDao(){return new TruckDaoImpl(connection);}
 
-    public void close() {
-        connection.close();
-    }
+    public void close() { connection.close(); }
 
     public void startTransacation() throws PersistentException {
         try {

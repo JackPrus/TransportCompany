@@ -15,21 +15,36 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class implements requests to database and response from it.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     private static final Logger logger = LogManager.getLogger(OrderDaoImpl.class);
 
-    private final String TOTAL_COUNT = "SELECT COUNT(sdek.order.id) AS orders FROM sdek.order";
+    private static final String TOTAL_COUNT = "SELECT COUNT(sdek.order.id) AS orders FROM sdek.order";
+    private static final String CREATE = "INSERT INTO `order` (`pickup adress`,city_pickup,city_delivery, `unloading adress`, length_cm, width_cm, height_cm, weight_kg, date, isactive, price, truck_id, manager_id, client_id) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String READ = "SELECT * FROM `order` WHERE id = (?)";
+    private static final String UPDATE = "UPDATE `order` SET `pickup adress`=?,city_pickup=?,city_delivery=?, `unloading adress`=?, length_cm=?, width_cm=?, height_cm=?, weight_kg=?, date=?, isactive=?, price=?, truck_id=?, manager_id=?, client_id=? WHERE `id` = ?";
+    private static final String DELETE = "DELETE FROM `order` WHERE `id` = ?";
+    private static final String DRIVERS_FOR_ORDER = "SELECT * FROM `driver_has_order` WHERE order_id = (?)";
+    private static final String ORDERS_OF_CLIENT = "SELECT * FROM `order` WHERE client_id = (?) ORDER BY isactive, date DESC";
+    private static final String ORDERS_OF_MANAGER = "SELECT * FROM `order` WHERE manager_id =(?) ORDER BY date and isactive DESC LIMIT ?,?";
+    private static final String ORDERS_WITHOUT_MANAGER = "SELECT * FROM `order` WHERE manager_id IS NULL ORDER BY date";
+    private static final String ORDERS_OF_TRUCK = "SELECT * FROM `order` WHERE truck_id =(?) ORDER BY date";
+    private static final String CURRENT_ORDERS_OF_TRUCK = "SELECT * FROM `order` WHERE truck_id =(?) and isactive =(true) ORDER BY date";
+
 
     public OrderDaoImpl (Connection connection){super(connection);}
 
     @Override
     public Integer create(Order order) throws PersistentException {
-        String sql = "INSERT INTO `order` (`pickup adress`,city_pickup,city_delivery, `unloading adress`, length_cm, width_cm, height_cm, weight_kg, date, isactive, price, truck_id, manager_id, client_id) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(CREATE);
             statement.setString(1,order.getPickupAdress());
             statement.setString(2, order.getCityPickUp().getCityName());
             statement.setString(3,order.getCityDelivery().getCityName());
@@ -77,16 +92,13 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         }
     }
 
-    //`pickup adress`,city_pickup,city_delivery, `unloading adress`, length_cm, width_cm, height_cm,
-    // weight_kg, date, isactive, price, truck_id, manager_id, client_id
 
     @Override
     public Order read(Integer identity) throws PersistentException {
-        String sql = "SELECT * FROM `order` WHERE id = (?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(READ);
             statement.setInt(1, identity);
             resultSet = statement.executeQuery();
             Order order = null;
@@ -140,9 +152,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
     @Override
     public void update(Order order) throws PersistentException {
 
-        String sql = "UPDATE `order` SET `pickup adress`=?,city_pickup=?,city_delivery=?, `unloading adress`=?, length_cm=?, width_cm=?, height_cm=?, weight_kg=?, date=?, isactive=?, price=?, truck_id=?, manager_id=?, client_id=? WHERE `id` = ?";
-
-        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+        try(PreparedStatement statement = connection.prepareStatement(UPDATE)) {
             if (order.getPickupAdress()!=null){
                 statement.setString(1,order.getPickupAdress());
             }
@@ -159,6 +169,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
             statement.setBoolean(10, order.isActive());
             statement.setBigDecimal(11, order.getPrice());
 
+            //possible null in case truck still has not been pointed
             if (order.getTruck()==null || order.getTruck().getIdentity()<=0){
                 statement.setNull(12, java.sql.Types.INTEGER);
             }else{ statement.setInt(12, order.getTruck().getIdentity()); }
@@ -183,9 +194,8 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
     @Override
     public void delete(Integer identity) throws PersistentException {
 
-        String sql = "DELETE FROM `order` WHERE `id` = ?";
 
-        try(PreparedStatement statement = connection.prepareStatement(sql);) {
+        try(PreparedStatement statement = connection.prepareStatement(DELETE);) {
             statement.setInt(1, identity);
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -197,9 +207,7 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
 
     public List<Driver> getDriversForOrder (Order order) throws PersistentException {
 
-        String sql = "SELECT * FROM `driver_has_order` WHERE order_id = (?)";
-
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
+        try(PreparedStatement statement = connection.prepareStatement(DRIVERS_FOR_ORDER)){
             List<Driver> driverList = new ArrayList<>();
             statement.setInt(1,order.getIdentity());
             ResultSet resultSet = statement.executeQuery();
@@ -217,10 +225,16 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         }
     }
 
+    /**
+     * When user (Client) push button 'my orders' this method returns list of orders that belong
+     * to current client
+     * @param client - current client in system.
+     * @return - list of orders belong to current client
+     * @throws PersistentException
+     */
     public List<Order> getOrdersByClient (Client client) throws PersistentException {
-        String sql = "SELECT * FROM `order` WHERE client_id = (?) ORDER BY isactive, date DESC ";
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+        try(PreparedStatement statement = connection.prepareStatement(ORDERS_OF_CLIENT)) {
             statement.setInt(1, client.getIdentity());
             ResultSet resultSet = statement.executeQuery();
 
@@ -265,10 +279,17 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         }
     }
 
-    public List<Order> getOrdersOfManager (Manager manager, int offset, int noOfRecords) throws PersistentException{
-        String sql = "SELECT * FROM `order` WHERE manager_id =(?) ORDER BY date and isactive DESC LIMIT ?,?";
+    /**
+     * When user (Manager) push button 'my orders' this method returns list of orders that belong
+     * to current manager. Manager had to choose these orders before.
+     * @param manager - current Manager in system.
+     * @return - list of orders belong to current Manager
+     * @throws PersistentException
+     */
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+    public List<Order> getOrdersOfManager (Manager manager, int offset, int noOfRecords) throws PersistentException{
+
+        try(PreparedStatement statement = connection.prepareStatement(ORDERS_OF_MANAGER)) {
             statement.setInt(1, manager.getIdentity());
             statement.setInt(2, offset);
             statement.setInt(3,noOfRecords);
@@ -312,10 +333,17 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         }
     }
 
-    public List<Order> getOrdersWithoutManager () throws PersistentException{
-        String sql = "SELECT * FROM `order` WHERE manager_id IS NULL ORDER BY date";
+    /**
+     * When user (Manager) push button 'my requests' this method returns list of orders that still
+     * not choosen by any manager. Manager can tage this request and this request forward to 'my orders'
+     * of current manager.
+     * @return - list of orders still not choosen by any manager.
+     * @throws PersistentException
+     */
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+    public List<Order> getOrdersWithoutManager () throws PersistentException{
+
+        try(PreparedStatement statement = connection.prepareStatement(ORDERS_WITHOUT_MANAGER)) {
             //statement.setInt(1, manager.getIdentity());
             ResultSet resultSet = statement.executeQuery();
             List<Order> orderList = new ArrayList<>();
@@ -357,10 +385,14 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         }
     }
 
+    /**
+     * The method returns all orders had been carrying by some truck (include current carriage)
+     * @return - all orders had been carrying by some truck
+     * @throws PersistentException
+     */
     public List<Order> getOrdersOfTruck (Truck truck) throws PersistentException{
-        String sql = "SELECT * FROM `order` WHERE truck_id =(?) ORDER BY date";
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+        try(PreparedStatement statement = connection.prepareStatement(ORDERS_OF_TRUCK)) {
             statement.setInt(1, truck.getIdentity());
             ResultSet resultSet = statement.executeQuery();
             List<Order> orderList = new ArrayList<>();
@@ -401,10 +433,15 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         }
     }
 
+    /**
+     * The method returns all orders are carrying at this moment
+     * by some truck.
+     * @return - all orders are carrying by some truck
+     * @throws PersistentException
+     */
     public List<Order> getCurrentOrdersOfTruck(Truck truck) throws PersistentException{
-        String sql = "SELECT * FROM `order` WHERE truck_id =(?) and isactive =(true) ORDER BY date";
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+        try(PreparedStatement statement = connection.prepareStatement(CURRENT_ORDERS_OF_TRUCK)) {
             statement.setInt(1, truck.getIdentity());
             ResultSet resultSet = statement.executeQuery();
             List<Order> orderList = new ArrayList<>();
@@ -445,6 +482,12 @@ public class OrderDaoImpl extends BaseDaoImpl implements OrderDao {
         }
     }
 
+    /**
+     * The method count records quantity with regards to request to DB.
+     * This information help us to calculate pages quantoty.
+     * @return quantity of all records with regards to request to DB
+     * @throws PersistentException
+     */
     @Override
     public Integer findRowCount() throws PersistentException {
         Optional<Integer> records = selectCountRecords(TOTAL_COUNT);

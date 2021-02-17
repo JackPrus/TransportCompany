@@ -15,22 +15,33 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class implements requests to database and response from it.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
 
     private static final Logger logger = LogManager.getLogger(TruckDaoImpl.class);
+
+    private static final String CREATE = "INSERT INTO truck (truck_no, `length_capasity(cm)`, `width_capasity(cm)`, `height_capasity(cm)`, `weight_capasity(kg)`, isbusy, manager_id) VALUES (?,?,?,?,?,?,?)";
+    private static final String READ = "SELECT * FROM truck WHERE id = (?)";
+    private static final String READ_ORDERS_OF_TRUCK = "SELECT * FROM sdek.order WHERE truck_id = (?)";
+    private static final String UPDATE = "UPDATE `truck` SET `truck_no` = ?, `length_capasity(cm)` = ?, `width_capasity(cm)` = ?, `height_capasity(cm)` = ?, `weight_capasity(kg)`=?, isbusy = ?, manager_id =? WHERE `id` = ?";
+    private static final String DELETE = "DELETE FROM `truck` WHERE `id` = ?";
+    private static final String READ_ALL_TRUCKS = "SELECT * FROM truck";
+    private static final String TRUCKS_OF_MANAGER = "SELECT * FROM truck where manager_id = ?";
 
     public TruckDaoImpl (Connection connection){
         super(connection);
     }
 
-
     @Override
     public Integer create(Truck truck) throws PersistentException {
-        String sql = "INSERT INTO truck (truck_no, `length_capasity(cm)`, `width_capasity(cm)`, `height_capasity(cm)`, `weight_capasity(kg)`, isbusy, manager_id) VALUES (?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(CREATE);
             statement.setString(1, truck.getTruckNo());
             statement.setInt(2, truck.getLengthCapacity());
             statement.setInt(3,truck.getWidthCapacity());
@@ -65,12 +76,10 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
 
     @Override
     public Truck read(Integer identity) throws PersistentException {
-        String sql = "SELECT * FROM truck WHERE id = (?)";
-        String sqlForOrders = "SELECT * FROM sdek.order WHERE truck_id = (?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(READ);
             statement.setInt(1, identity);
             resultSet = statement.executeQuery();
             Truck truck = null;
@@ -80,7 +89,7 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
                 Manager manager = new Manager();
                 manager.setIdentity(resultSet.getInt("manager_id"));
                 List<Order> orderList = new ArrayList<>();
-                fillOrderListWithID(sqlForOrders, identity, orderList);
+                fillOrderListWithID(READ_ORDERS_OF_TRUCK, identity, orderList);
 
                 truck.setTruckNo(resultSet.getString("truck_no"));
                 truck.setLengthCapacity(resultSet.getInt("length_capasity(cm)"));
@@ -94,7 +103,6 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
 
             }
             return truck;
-
         } catch(SQLException e) {
             logger.error("SQL exception trying to read from `truck`");
             throw new PersistentException(e);
@@ -114,11 +122,10 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
 
     @Override
     public void update(Truck truck) throws PersistentException {
-//truck_no, `length_capasity(cm)`, `width_capasity(cm)`, `height_capasity(cm)`, isbusy, manager_id
-        String sql = "UPDATE `truck` SET `truck_no` = ?, `length_capasity(cm)` = ?, `width_capasity(cm)` = ?, `height_capasity(cm)` = ?, `weight_capasity(kg)`=?, isbusy = ?, manager_id =? WHERE `id` = ?";
+
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(UPDATE);
             statement.setString(1, truck.getTruckNo());
             statement.setInt(2, truck.getLengthCapacity());
             statement.setInt(3, truck.getWidthCapacity());
@@ -143,10 +150,9 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
 
     @Override
     public void delete(Integer identity) throws PersistentException {
-        String sql = "DELETE FROM `truck` WHERE `id` = ?";
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(DELETE);
             statement.setInt(1, identity);
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -162,12 +168,11 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
     }
 
     public List<Truck> readAllTrucks() throws PersistentException {
-        String sql = "SELECT * FROM truck";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Truck> truckList = new ArrayList<>();
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(READ_ALL_TRUCKS);
             resultSet = statement.executeQuery();
             Truck truck = null;
             while (resultSet.next()){
@@ -208,12 +213,11 @@ public class TruckDaoImpl extends BaseDaoImpl implements TruckDao {
     }
 
     public List<Truck> readByManagerId(int managerId) throws PersistentException {
-        String sql = "SELECT * FROM truck where manager_id = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         List<Truck> truckList = new ArrayList<>();
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(TRUCKS_OF_MANAGER);
             statement.setInt(1,managerId);
             resultSet = statement.executeQuery();
             Truck truck = null;

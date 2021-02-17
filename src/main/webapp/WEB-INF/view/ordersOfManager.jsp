@@ -90,16 +90,20 @@
 
                         <td>
                             <c:choose>
-                            <c:when test="${order.active eq true}">
+                            <c:when test="${order.active eq true and order.truck.identity ne 0}">
                                 <form name="newTruckForm" method="post" action="controller?command=markAsDelivered">
                                 <input type="hidden" name="orderId" value="${order.identity}">
                                 <input type="hidden" name="truckId" value="${order.truck.identity}">
                                 <input type="submit"  value="<fmt:message key="label.button.close"/>"/>
                                 </form>
                             </c:when>
-                                    <c:otherwise>
-                                        <fmt:message key="label.orderform.delivered"/>
-                                    </c:otherwise>
+
+                                <c:when test="${order.active eq true and order.truck.identity eq 0}">
+                                    <fmt:message key="label.orderform.notdelivered"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <fmt:message key="label.orderform.delivered"/>
+                                </c:otherwise>
                             </c:choose>
                         </td>
 
@@ -112,19 +116,60 @@
 
             <div class="pagination">
 
-                <c:if test="${requestScope.amountPages>3}">
-                    <a href="#">&laquo;</a>
-                </c:if>
-                <c:if test="${requestScope.amountPages > 1}">
-                    <a href="controller?command=${requestScope.command}&page=1">1</a>
-                    <a href="controller?command=${requestScope.command}&page=2">2</a>
-                </c:if>
-                <c:if test="${requestScope.amountPages > 2}">
-                    <a href="controller?command=${requestScope.command}&page=3">3</a>
-                </c:if>
-                <c:if test="${requestScope.amountPages > 3}">
-                    <a href="#">&raquo;</a>
-                </c:if>
+<%--                <c:if test="${requestScope.amountPages>3}">--%>
+<%--                    <a href="#">&laquo;</a>--%>
+<%--                </c:if>--%>
+<%--                <c:if test="${requestScope.amountPages > 1}">--%>
+<%--                    <a href="controller?command=${requestScope.command}&page=1">1</a>--%>
+<%--                    <a href="controller?command=${requestScope.command}&page=2">2</a>--%>
+<%--                </c:if>--%>
+<%--                <c:if test="${requestScope.amountPages > 2}">--%>
+<%--                    <a href="controller?command=${requestScope.command}&page=3">3</a>--%>
+<%--                </c:if>--%>
+<%--                <c:if test="${requestScope.amountPages > 3}">--%>
+<%--                    <a href="#">&raquo;</a>--%>
+<%--                </c:if>--%>
+
+    <c:if test="${requestScope.currentPage != 1}">
+        <td><a href="controller?command=${requestScope.command}&page=${requestScope.currentPage-1}">Previous</a></td>
+    </c:if>
+
+    <%--For displaying Page numbers.
+    The when condition does not display a link for the current page--%>
+    <table border="1" cellpadding="5" cellspacing="5">
+<%--            <c:forEach begin="1" end="${requestScope.amountPages}" var="i">--%>
+<%--                <c:choose>--%>
+<%--                    <c:when test="${requestScope.currentPage eq i}">--%>
+<%--                        <td>${i}</td>--%>
+<%--                    </c:when>--%>
+<%--                    <c:otherwise>--%>
+<%--&lt;%&ndash;                        <td><a href="employee.do?page=${i}">${i}</a></td>&ndash;%&gt;--%>
+<%--                        <td><a href="controller?command=${requestScope.command}&page=${i}"></a></td>--%>
+<%--                    </c:otherwise>--%>
+<%--                </c:choose>--%>
+<%--            </c:forEach>--%>
+    <td>
+        <c:if test="${requestScope.amountPages>1}">
+            <c:forEach begin="1" end="${requestScope.amountPages}" var="i">
+        <c:choose>
+            <c:when test="${requestScope.currentPage eq i}">
+                <a href="#">${i}</a></>
+            </c:when>
+            <c:otherwise>
+
+                    <a href="controller?command=${requestScope.command}&page=${i}">${i}</a>
+
+            </c:otherwise>
+        </c:choose>
+            </c:forEach>
+        </c:if>
+    </td>
+    </table>
+
+    <%--For displaying Next link --%>
+    <c:if test="${requestScope.currentPage lt requestScope.amountPages}">
+        <td><a href="controller?command=${requestScope.command}&page=${requestScope.currentPage + 1}">Next</a></td>
+    </c:if>
 
             </div>
 

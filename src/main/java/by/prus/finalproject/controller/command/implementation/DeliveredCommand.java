@@ -51,8 +51,10 @@ public class DeliveredCommand implements Command {
                 order.setActive(false);
                 orderService.update(order);
             }else{
+                // the page will be updated and user see error message
                 request.setAttribute(ERROR_MESSAGE_PARAM, NO_TRUCKS_FOR_ORDER);
-                return CommandResult.forward(ORDERS_OF_MANAGER_PAGE);
+                OrdersOfManagerCommand ordersOfManagerCommand = new OrdersOfManagerCommand(orderService);
+                return ordersOfManagerCommand.execute(request,response);
             }
 
             Truck truck = truckService.read(truckId);

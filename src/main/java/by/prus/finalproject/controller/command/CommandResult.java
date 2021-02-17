@@ -1,5 +1,9 @@
 package by.prus.finalproject.controller.command;
 
+
+/**
+ * Wrapper for response of server (forward/redirect)
+ */
 public class CommandResult {
     private final String page;
     private final boolean isRedirect;
@@ -13,11 +17,7 @@ public class CommandResult {
 
     public static CommandResult redirect(String page) { return new CommandResult(page, true); }
 
-    public String getPage() {
-        return page;
-    }
+    public String getPage() { return page; }
 
-    public boolean getIsRedirect() {
-        return isRedirect;
-    }
+    public boolean getIsRedirect() { return isRedirect; }
 }

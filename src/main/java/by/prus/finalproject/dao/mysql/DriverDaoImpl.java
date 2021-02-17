@@ -11,25 +11,37 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class implements requests to database and response from it.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
+
+    private static final Logger logger = LogManager.getLogger(DriverDaoImpl.class);
+
+    //ELECT * FROM driver WHERE  isbusy = ?
+    private static final String READ_BY_ISBUSY = "SELECT * FROM driver WHERE  isbusy = ?";
+    private static final String READ_BY_NAME = "SELECT * FROM driver WHERE  name LIKE ? ORDER BY id";
+    private static final String CREATE_DRIVER = "INSERT INTO driver (name, licenseNo, isbusy, medical_aprovement) VALUES (?, ?, ?, ?)";
+    private static final String READ_BY_ID = "SELECT * FROM driver WHERE id = (?)";
+    private static final String UPDATE_DRIVER = "UPDATE `driver` SET `name` = ?, `licenseNo` = ?, `isbusy` = ?, `medical_aprovement` = ? WHERE `id` = ?";
+    private static final String DELETE_DRIVER = "DELETE FROM `driver` WHERE `id` = ?";
+    private static final String ORDERS_OF_DRIVER = "SELECT * FROM `driver_has_order` WHERE driver_id = (?)";
+
 
     public DriverDaoImpl(Connection connection) {
         super(connection);
     }
 
-    private static final Logger logger = LogManager.getLogger(DriverDaoImpl.class);
-
-
-    DateParser datePars = new DateParser();
 
     @Override
     public List<Driver> readBusy(Boolean isbusy) throws PersistentException {
 
-        String sql = "SELECT * FROM driver WHERE  isbusy = ?";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try{
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(READ_BY_ISBUSY);
             statement.setBoolean(1, isbusy);
             resultSet = statement.executeQuery();
             List<Driver> driverList = new ArrayList<>();
@@ -62,11 +74,10 @@ public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
     @Override
     public List<Driver> readByName(String searchName) throws PersistentException {
 
-        String sql = "SELECT * FROM driver WHERE  name LIKE ? ORDER BY id"; // order by means sorting
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try{
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(READ_BY_NAME);
             statement.setString(1,"%"+searchName+"%");
             resultSet = statement.executeQuery();
             List<Driver>driverList = new ArrayList<>();
@@ -99,11 +110,10 @@ public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
     public Integer create(Driver driver) throws PersistentException {
 
         DateParser dateParser = new DateParser();
-        String sql = "INSERT INTO driver (name, licenseNo, isbusy, medical_aprovement) VALUES (?, ?, ?, ?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(CREATE_DRIVER);
             statement.setString(1, driver.getName());
             statement.setString(2, driver.getLicenseNo());
             statement.setBoolean(3, driver.isBusy());
@@ -132,11 +142,10 @@ public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
     @Override
     public Driver read(Integer identity) throws PersistentException {
 
-        String sql = "SELECT * FROM driver WHERE id = (?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(READ_BY_ID);
             statement.setInt(1, identity);
             resultSet = statement.executeQuery();
             Driver driver = null;
@@ -173,9 +182,8 @@ public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
     @Override
     public void update(Driver driver) throws PersistentException {
 
-        String sql = "UPDATE `driver` SET `name` = ?, `licenseNo` = ?, `isbusy` = ?, `medical_aprovement` = ? WHERE `id` = ?";
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+        try(PreparedStatement statement = connection.prepareStatement(UPDATE_DRIVER)) {
             statement.setString(1, driver.getName());
             statement.setString(2, driver.getLicenseNo());
             statement.setBoolean(3, driver.isBusy());
@@ -192,8 +200,7 @@ public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
     @Override
     public void delete(Integer identity) throws PersistentException {
 
-        String sql = "DELETE FROM `driver` WHERE `id` = ?";
-        try(PreparedStatement statement =connection.prepareStatement(sql)) {
+        try(PreparedStatement statement =connection.prepareStatement(DELETE_DRIVER)) {
             statement.setInt(1, identity);
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -205,9 +212,8 @@ public class DriverDaoImpl extends BaseDaoImpl implements DriverDao {
 
     public List<Order> getOrdersForDriver (Driver driver) throws PersistentException {
 
-        String sql = "SELECT * FROM `driver_has_order` WHERE driver_id = (?)";
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)){
+        try(PreparedStatement statement = connection.prepareStatement(ORDERS_OF_DRIVER)){
             List<Order> orderList = new ArrayList<>();
             statement.setInt(1,driver.getIdentity());
             ResultSet resultSet = statement.executeQuery();

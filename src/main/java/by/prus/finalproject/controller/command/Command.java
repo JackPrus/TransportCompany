@@ -6,6 +6,12 @@ import by.prus.finalproject.exception.ServiceException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * The main interface of Command pattern.
+ * Fields use for pagination.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public interface Command {
 
     final String PAGE = "page";

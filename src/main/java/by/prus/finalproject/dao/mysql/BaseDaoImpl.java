@@ -14,6 +14,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * class the parrent fo others classes implementing requests to database.
+ */
 public class BaseDaoImpl {
 
     protected Connection connection;
@@ -63,6 +66,13 @@ public class BaseDaoImpl {
         }
     }
 
+    /**
+     * the method countion records of table. It used for pagination in order to count
+     * how many need for representation
+     * @param sql - SQL request (SELECT COUNT(*) from)
+     * @return - records' quantity
+     * @throws PersistentException
+     */
     public Optional<Integer>selectCountRecords(String sql)throws PersistentException{
 
         ResultSet resultSet = null;

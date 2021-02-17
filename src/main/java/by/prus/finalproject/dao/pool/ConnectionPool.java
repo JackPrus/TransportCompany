@@ -18,6 +18,17 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * Wrapper of connection. Class represent pool of connections and when initializotion going on
+ * @see ConnectionFactory creates connections (POOL_SIZE) and put them into availableConnections.
+ * In order to get this connection service Daohelper get one of connection from availableConnections.
+ * @see by.prus.finalproject.dao.mysql.DaoHelper
+ * And this connection replace from availableConnections to connectionsInUse.
+ * When job done, method turnBackConnection replace this connection from connectionsInUse
+ * back to availableConnections.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class ConnectionPool {
 
     private static Logger logger = LogManager.getLogger(ConnectionPool.class);

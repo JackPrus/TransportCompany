@@ -16,13 +16,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class implements requests to database and response from it.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
 
     private static final Logger logger = LogManager.getLogger(ManagerDaoImpl.class);
 
-    public ManagerDaoImpl(Connection connection) {
-        super(connection);
-    }
+    private static final String CREATE = "INSERT INTO manager (name,office) VALUE (?,?)";
+    private static final String READ = "SELECT * FROM manager WHERE id = (?)";
+    private static final String READ_ORDERS = "SELECT * FROM manager WHERE id = (?)";
+    private static final String READ_TRUCKS = "SELECT * FROM manager WHERE id = (?)";
+    private static final String UPDATE = "UPDATE `manager` SET `name` = ?, `office` = ? WHERE `id` = ?";
+    private static final String DELETE = "DELETE FROM `manager` WHERE `id` = ?";
+
+    public ManagerDaoImpl(Connection connection) { super(connection); }
 
     @Override
     public List<Manager> findByName(String name) {
@@ -31,11 +41,10 @@ public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
 
     @Override
     public Integer create(Manager manager) throws PersistentException {
-        String sql = "INSERT INTO manager (name,office) VALUE (?,?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(CREATE);
             statement.setString(1, manager.getName());
             statement.setString(2,manager.getOffice().getCityName());
             statement.executeUpdate();
@@ -65,13 +74,11 @@ public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
 
     @Override
     public Manager read(Integer identity) throws PersistentException {
-        String sql = "SELECT * FROM manager WHERE id = (?)";
-        String sqlForOrders = "SELECT id FROM sdek.order WHERE manager_id = (?)";
-        String sqlForTrucks = "SELECT id FROM sdek.truck WHERE manager_id = (?)";
+
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(READ);
             statement.setInt(1, identity);
             resultSet = statement.executeQuery();
             Manager manager = null;
@@ -80,8 +87,8 @@ public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
                 manager = new Manager();
                 List<Order> orderList = new ArrayList<>();
                 List<Truck> truckList = new ArrayList<>();
-                fillOrderListWithID(sqlForOrders,identity, orderList);
-                fillTruckListWithID(sqlForTrucks,identity,truckList);
+                fillOrderListWithID(READ_ORDERS,identity, orderList);
+                fillTruckListWithID(READ_TRUCKS,identity,truckList);
 
                 manager.setName(resultSet.getString("name"));
                 manager.setOffice(City.getCity(resultSet.getString("office")));
@@ -111,10 +118,9 @@ public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
     @Override
     public void update(Manager manager) throws PersistentException {
 
-        String sql = "UPDATE `manager` SET `name` = ?, `office` = ? WHERE `id` = ?";
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(UPDATE);
             statement.setString(1, manager.getName());
             statement.setString(2, manager.getOffice().getCityName());
             statement.setInt(3,manager.getIdentity());
@@ -135,10 +141,9 @@ public class ManagerDaoImpl extends BaseDaoImpl implements ManagerDao {
     @Override
     public void delete(Integer identity) throws PersistentException {
 
-        String sql = "DELETE FROM `manager` WHERE `id` = ?";
         PreparedStatement statement = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(DELETE);
             statement.setInt(1, identity);
             statement.executeUpdate();
         } catch(SQLException e) {

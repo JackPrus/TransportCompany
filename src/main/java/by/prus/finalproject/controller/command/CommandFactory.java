@@ -38,14 +38,14 @@ public class CommandFactory {
     private static final String POINT_TRUCK = "pointTruck";
     private static final String DELIVERED = "markAsDelivered";
     private static final String TRUCK_GO_TO_CARRIAGE = "truckGoToCarriage";
-
+    private static final String ORDERS_OF_MANAGER = "ordersOfManager";
+    private static final String ORDERS_WITHOUT_MAGAGER = "ordersWithoutManager";
     //deleteTruck
 
     private static final String CONTACTS_PAGE = "contactsPage";
     private static final String ABOUT_US_PAGE = "aboutUsPage";
     private static final String MAIN_PAGE = "mainPage";
-    private static final String ORDERS_OF_MANAGER = "ordersOfManager";
-    private static final String ORDERS_WITHOUT_MAGAGER = "ordersWithoutManager";
+
 
 
 

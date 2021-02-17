@@ -13,9 +13,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class implements requests to database and response from it.
+ * @autor Dzmitry Prus
+ * @version 1.0
+ */
 public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
 
     private static final Logger logger = LogManager.getLogger(ClientDaoImpl.class);
+
+    private static final String CREATE_REQUEST = "INSERT INTO client (name, `data`, `type_id`) VALUES (?,?,?)";
+    private static final String READ_REQUEST = "SELECT * FROM client WHERE id = (?)";
+    private static final String FILL_ORDERLIST = "SELECT * FROM sdek.order WHERE client_id =(?)";
+    private static final String UPDATE_CLIENT = "UPDATE `client` SET `name` = ?, `data` = ?, type_id =? WHERE `id` = ?";
+    private static final String DELETE_CLIENT = "DELETE FROM `client` WHERE `id` = ?";
+    private static final String READ_ALL_CLIENTS = "SELECT * FROM client ORDER BY name, type_id";
+
 
     public ClientDaoImpl(Connection connection) {
         super(connection);
@@ -23,11 +36,10 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
 
     @Override
     public Integer create(Client client) throws PersistentException {
-        String sql = "INSERT INTO client (name, `data`, `type_id`) VALUES (?,?,?)";
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(CREATE_REQUEST);
             statement.setString(1,client.getName());
             if (client.getData()!=null){
                 statement.setString(2,client.getData());
@@ -61,13 +73,10 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
     @Override
     public Client read(Integer identity) throws PersistentException {
 
-        String sql = "SELECT * FROM client WHERE id = (?)";
-        String sqlForOrders = "SELECT * FROM sdek.order WHERE client_id =(?)";
-
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(READ_REQUEST);
             statement.setInt(1, identity);
             resultSet = statement.executeQuery();
             Client client = null;
@@ -76,7 +85,7 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
                 client = new Client();
 
                 List<Order> orderList = new ArrayList<>();
-                fillOrderListWithID(sqlForOrders, identity, orderList);
+                fillOrderListWithID(FILL_ORDERLIST, identity, orderList);
 
                 client.setIdentity(resultSet.getInt("id"));
                 client.setName(resultSet.getString("name"));
@@ -106,9 +115,8 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
 
     @Override
     public void update(Client client) throws PersistentException {
-        String sql = "UPDATE `client` SET `name` = ?, `data` = ?, type_id =? WHERE `id` = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql);){
+        try (PreparedStatement statement = connection.prepareStatement(UPDATE_CLIENT);){
 
             statement.setString(1, client.getName());
             if (client.getData()!=null){
@@ -125,9 +133,8 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
 
     @Override
     public void delete(Integer identity) throws PersistentException {
-        String sql = "DELETE FROM `client` WHERE `id` = ?";
 
-        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+        try(PreparedStatement statement = connection.prepareStatement(DELETE_CLIENT)) {
             statement.setInt(1, identity);
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -137,10 +144,9 @@ public class ClientDaoImpl extends BaseDaoImpl implements ClientDao {
     }
 
     public List<Client> readAll () throws PersistentException{
-        String sql = "SELECT * FROM client ORDER BY name, type_id";
 
         ResultSet resultSet = null;
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(READ_ALL_CLIENTS)) {
             resultSet = statement.executeQuery();
             List<Client> clientList = new ArrayList<>();
             Client client = null;

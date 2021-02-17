@@ -46,7 +46,7 @@ public class TruckToCarriageCommand implements Command {
             int truckId = Integer.parseInt(request.getParameter(TRUCK_ID));
             Truck truck = truckService.read(truckId);
 
-            List<Order> ordersOfTruck = orderService.getOrdersOfTruck(truck);
+            List<Order> ordersOfTruck = orderService.getCurrentOrdersOfTruck(truck);
 
             if (ordersOfTruck.size()==0){
                 request.setAttribute(ERROR_MESSAGE_PARAM, ERROR_MESSAGE_WRONG_DATA);
@@ -63,6 +63,7 @@ public class TruckToCarriageCommand implements Command {
             return CommandResult.forward(MY_TRUCKS_PAGE);
         }
 
-        return CommandResult.forward(MY_TRUCKS_PAGE);
+        TruckOfManagerCommand truckOfManagerCommand = new TruckOfManagerCommand(truckService);
+        return truckOfManagerCommand.execute(request,response);
     }
 }
