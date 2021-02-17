@@ -27,6 +27,12 @@ public class RfqService {
     private final int maxHeight = 275;      // высота кузова транспортного средства cm
     private final int maxWeight = 23000;    // максиальная грузоподъемность транспортного средства kg
 
+    private final double K1 = 1.5;
+    private final double K2 = 2.7;
+    private final double K3 = 3.2;
+    private final double K4 = 4.5;
+    private final double K5 = 35.9;
+
     public BigDecimal countPrice(RequestForQuotation rfq) throws ServiceException {
 
 //        k = rfq.getLength() /
@@ -74,28 +80,26 @@ public class RfqService {
         double k_space=-1;
 
         if (f_space>0.7){ k_space = 1.1;
-        }else if (f_space>0.5&&f_space<=0.7){ k_space = 1.5;
-        }else if (f_space>0.3&&f_space<=0.5){ k_space = 2.7;
-        }else if (f_space>0.2&&f_space<=0.3){ k_space = 3.2;
-        }else if (f_space>0.1&&f_space<=0.2){ k_space = 4.5;
-        }else if (f_space<=0.1){ k_space = 25.9;
+        }else if (f_space>0.5&&f_space<=0.7){ k_space = K1;
+        }else if (f_space>0.3&&f_space<=0.5){ k_space = K2;
+        }else if (f_space>0.2&&f_space<=0.3){ k_space = K3;
+        }else if (f_space>0.1&&f_space<=0.2){ k_space = K4;
+        }else if (f_space<=0.1){ k_space = K5;
         }
 
         //коэффициент использования грузоподъемности транспортного средства
         double k_weight=-1;
 
         if (f_weight>0.7){ k_weight = 1.1;
-        }else if (f_weight>0.5&&f_weight<=0.7){ k_weight = 1.5;
-        }else if (f_weight>0.3&&f_weight<=0.5){ k_weight = 2.7;
-        }else if (f_weight>0.2&&f_weight<=0.3){ k_weight = 3.2;
-        }else if (f_weight>0.1&&f_weight<=0.2){ k_weight = 4.5;
-        }else if (f_weight<=0.1){ k_weight = 25.9;
+        }else if (f_weight>0.5&&f_weight<=0.7){ k_weight = K1;
+        }else if (f_weight>0.3&&f_weight<=0.5){ k_weight = K2;
+        }else if (f_weight>0.2&&f_weight<=0.3){ k_weight = K3;
+        }else if (f_weight>0.1&&f_weight<=0.2){ k_weight = K4;
+        }else if (f_weight<=0.1){ k_weight = K5;
         }
 
         //используется понижение коэффициента, если большая заполняемость от одного заказчика
-
         return (k_weight<2||k_space<2) ? k_weight+k_space-1 : k_weight+k_space;
-
     }
 
 }
